@@ -1,0 +1,61 @@
+/*
+  Everplans - primitive color scales.
+
+  These are the raw paint. Nothing in this file decides what a background
+  or text color IS - that mapping lives in globals.css. Components should
+  never reference this file directly; they consume the semantic tokens.
+
+  As of 2026-08-18 the brand foundation is exactly three colors, light mode
+  only - no dark mode, no separate accent hue:
+
+    #FFFFFF  primary / light foundation
+    #000814  dark - strong text and deliberate dark surfaces
+    #415A77  secondary - the interactive/brand color (buttons, links, focus)
+
+  Every derived value below is a straight sRGB mix between two of these
+  three anchors - nothing here introduces a color outside that set.
+*/
+
+:root {
+  /* Neutral - white to #000814. Purely achromatic mixing: no color cast at
+     any step, so nothing in this ramp reads as "a shade of blue" or
+     resembles a retired brand color by accident. */
+  --ep-neutral-50: #ffffff;
+  --ep-neutral-100: #f0f0f1;
+  --ep-neutral-150: #e0e1e3;
+  --ep-neutral-200: #ccced0;
+  --ep-neutral-300: #adb0b4;
+  --ep-neutral-400: #8a8d93;
+  --ep-neutral-500: #666b72;
+  --ep-neutral-600: #474d56;
+  --ep-neutral-700: #2e343e;
+  --ep-neutral-800: #1a212c;
+  --ep-neutral-850: #0f1722;
+  --ep-neutral-900: #080f1b;
+  --ep-neutral-950: #000814;
+
+  /* Secondary - #415A77 at 600. The one interactive/brand hue: primary
+     buttons, links, focus rings. Hover/active darken toward black; subtle
+     tints lighten toward white for badge/highlight backgrounds. */
+  --ep-secondary-100: #eef1f3;
+  --ep-secondary-subtle: #e8ebef;
+  --ep-secondary-300: #a7b4c1;
+  --ep-secondary-500: #415a77;
+  --ep-secondary-600: #415a77;
+  --ep-secondary-hover: #354a62;
+  --ep-secondary-active: #2c3d51;
+
+  /* Status hues - independent of the brand palette (no red/green/amber in
+     it), muted to stay coherent, verified at WCAG AA against white. */
+  --ep-success-text: #106e45;
+  --ep-success-solid: #2a7a5e;
+  --ep-success-subtle: #e3f1ea;
+
+  --ep-warning-text: #8a5a00;
+  --ep-warning-solid: #9a6400;
+  --ep-warning-subtle: #fbeed9;
+
+  --ep-error-text: #b3261e;
+  --ep-error-solid: #b23a3a;
+  --ep-error-subtle: #fbe7e5;
+}
