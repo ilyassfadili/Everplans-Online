@@ -96,52 +96,62 @@ export function MobileMenu() {
         <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
       </button>
 
-      {open && (
-        <>
-          {/* Backdrop - click to close, prevents interacting with page content underneath. */}
-          <button
-            type="button"
-            aria-hidden="true"
-            tabIndex={-1}
-            onClick={close}
-            className="fixed inset-x-0 bottom-0 top-16 z-40 bg-overlay"
-          />
-          <div
-            ref={panelRef}
-            id={panelId}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site navigation"
-            className={cn(
-              "fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] overflow-y-auto",
-              "border-t border-line-subtle bg-surface shadow-lg",
-            )}
-          >
-            <nav aria-label="Primary" className="flex flex-col px-6 py-6">
-              <ul className="flex flex-col gap-1">
-                {primaryNav.map((item) => (
-                  <li key={item.href}>
-                    <NavLink
-                      item={item}
-                      onNavigate={close}
-                      className="block rounded-md px-3 py-3 text-body hover:bg-surface-muted"
-                    />
-                  </li>
-                ))}
-              </ul>
+      {/*
+        Always mounted (not `{open && ...}`) so both open AND close can
+        transition smoothly via CSS - conditional rendering can only ever
+        animate the entrance, since unmounting removes the element before
+        any exit transition gets a frame to run. `inert` takes the closed
+        panel out of tab order and hit-testing in one attribute, so it's
+        safe to leave in the DOM without a manual focusability audit.
+      */}
+      <button
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={close}
+        inert={!open}
+        className={cn(
+          "fixed inset-x-0 bottom-0 top-16 z-40 bg-overlay transition-opacity duration-200 ease-standard",
+          open ? "opacity-100" : "pointer-events-none opacity-0",
+        )}
+      />
+      <div
+        ref={panelRef}
+        id={panelId}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
+        inert={!open}
+        className={cn(
+          "fixed inset-x-0 top-16 z-40 max-h-[calc(100dvh-4rem)] overflow-y-auto",
+          "border-t border-line-subtle bg-surface shadow-lg",
+          "transition-[opacity,transform] duration-200 ease-standard motion-reduce:transition-none",
+          open ? "opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+        )}
+      >
+        <nav aria-label="Primary" className="flex flex-col px-6 py-6">
+          <ul className="flex flex-col gap-1">
+            {primaryNav.map((item) => (
+              <li key={item.href}>
+                <NavLink
+                  item={item}
+                  onNavigate={close}
+                  className="block rounded-md px-3 py-3 text-body hover:bg-surface-muted"
+                />
+              </li>
+            ))}
+          </ul>
 
-              <div className="mt-6 flex flex-col gap-3 border-t border-line-subtle pt-6">
-                <Button href={authNav.signIn.href} variant="outline" onClick={close}>
-                  {authNav.signIn.label}
-                </Button>
-                <Button href={authNav.signUp.href} variant="primary" onClick={close}>
-                  {authNav.signUp.label}
-                </Button>
-              </div>
-            </nav>
+          <div className="mt-6 flex flex-col gap-3 border-t border-line-subtle pt-6">
+            <Button href={authNav.signIn.href} variant="outline" onClick={close}>
+              {authNav.signIn.label}
+            </Button>
+            <Button href={authNav.signUp.href} variant="primary" onClick={close}>
+              {authNav.signUp.label}
+            </Button>
           </div>
-        </>
-      )}
+        </nav>
+      </div>
     </div>
   );
 }

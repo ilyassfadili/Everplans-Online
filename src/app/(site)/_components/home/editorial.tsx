@@ -1,6 +1,6 @@
 import { Newspaper } from "lucide-react";
 
-import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Container, Eyebrow, Heading, Link, Section, Text } from "@/components/ui";
+import { Badge, Button, Card, CardDescription, CardHeader, CardTitle, Container, Eyebrow, Heading, Link, Reveal, Section, Text } from "@/components/ui";
 import { getArticles } from "@/lib/blog";
 
 /*
@@ -16,7 +16,7 @@ export async function Editorial() {
   return (
     <Section background="surface-muted">
       <Container>
-        <div className="flex flex-wrap items-end justify-between gap-6">
+        <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Eyebrow>From the blog</Eyebrow>
             <Heading as="h2" className="mt-3">
@@ -26,7 +26,7 @@ export async function Editorial() {
           <Link href="/blog" variant="prominent" className="text-body-sm">
             Visit the Blog
           </Link>
-        </div>
+        </Reveal>
 
         {preview.length === 0 ? (
           <div className="mt-10 flex flex-col items-center gap-3 rounded-xl border border-dashed border-line bg-surface/60 px-6 py-14 text-center">
@@ -44,16 +44,18 @@ export async function Editorial() {
           </div>
         ) : (
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {preview.map((article) => (
-              <Link key={article.id} href={`/blog/${article.slug}`} className="block">
-                <Card variant="interactive">
-                  <CardHeader>
-                    <Badge variant="neutral">{article.category}</Badge>
-                    <CardTitle className="mt-3">{article.title}</CardTitle>
-                    <CardDescription>{article.excerpt}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
+            {preview.map((article, index) => (
+              <Reveal key={article.id} delay={index * 70}>
+                <Link href={`/blog/${article.slug}`} className="block h-full">
+                  <Card variant="interactive" className="h-full">
+                    <CardHeader>
+                      <Badge variant="neutral">{article.category}</Badge>
+                      <CardTitle className="mt-3">{article.title}</CardTitle>
+                      <CardDescription>{article.excerpt}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              </Reveal>
             ))}
           </div>
         )}

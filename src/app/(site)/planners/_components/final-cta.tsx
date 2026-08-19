@@ -1,7 +1,7 @@
 import { ArrowRight, Briefcase, Home as HomeIcon, LayoutGrid, Plus } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Button, Container, Heading, Icon, Section, Text } from "@/components/ui";
+import { Button, Container, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 /**
  * Same two real domain words CategoryExploration uses earlier on this page
@@ -44,40 +44,37 @@ export function PlannersFinalCta() {
       />
 
       <Container size="narrow" className="relative text-center">
-        <div className="mx-auto flex size-12 items-center justify-center rounded-full border border-ink-on-brand/25 bg-ink-on-brand/10 text-ink-on-brand">
-          <Icon icon={LayoutGrid} />
-        </div>
+        <Reveal>
+          <div className="mx-auto flex size-12 items-center justify-center rounded-full border border-ink-on-brand/25 bg-ink-on-brand/10 text-ink-on-brand">
+            <Icon icon={LayoutGrid} />
+          </div>
 
-        <Heading as="h2" className="mt-5 text-ink-on-brand">
-          See where your plan fits
-        </Heading>
-        <Text size="body-lg" className="mx-auto mt-4 max-w-lg text-ink-on-brand/80">
-          Categories are the clearest way to see how Everplans is organized today - and where
-          new planners will appear as the library grows.
-        </Text>
+          <Heading as="h2" className="mt-5 text-ink-on-brand">
+            See where your plan fits
+          </Heading>
+          <Text size="body-lg" className="mx-auto mt-4 max-w-lg text-ink-on-brand/80">
+            Categories are the clearest way to see how Everplans is organized today - and where
+            new planners will appear as the library grows.
+          </Text>
 
-        <div className="mt-7">
-          <CategoryChips />
-        </div>
+          <div className="mt-7">
+            <CategoryChips />
+          </div>
 
-        <div className="mt-8 flex flex-col items-center gap-4">
-          <Button
-            href="/categories"
-            variant="secondary"
-            size="lg"
-            trailingIcon={<ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />}
-          >
-            Explore Categories
-          </Button>
-          <Button
-            href="/about"
-            variant="outline"
-            size="lg"
-            className="border-ink-on-brand/30 text-ink-on-brand hover:bg-ink-on-brand/10"
-          >
-            Read the Vision
-          </Button>
-        </div>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <Button
+              href="/categories"
+              variant="secondary"
+              size="lg"
+              trailingIcon={<ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />}
+            >
+              Explore Categories
+            </Button>
+            <Button href="/about" variant="outline-on-dark" size="lg">
+              Read the Vision
+            </Button>
+          </div>
+        </Reveal>
       </Container>
     </Section>
   );

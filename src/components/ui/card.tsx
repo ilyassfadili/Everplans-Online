@@ -18,7 +18,7 @@ const cardVariants = cva("rounded-lg", {
       // reduced-motion rule (which zeroes transition-duration) already makes
       // it a snap instead of an ease for anyone who's asked for that.
       interactive:
-        "bg-surface border border-line-subtle transition-all duration-200 ease-standard hover:-translate-y-1 hover:border-line hover:shadow-md focus-within:border-line-strong",
+        "bg-surface border border-line-subtle transition-all duration-200 ease-standard hover:-translate-y-1 hover:border-line hover:shadow-md active:translate-y-0 active:shadow-sm focus-within:border-line-strong motion-reduce:hover:translate-y-0",
     },
     padding: {
       none: "",

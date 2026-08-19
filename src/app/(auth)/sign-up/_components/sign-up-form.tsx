@@ -4,6 +4,7 @@ import { MailCheck } from "lucide-react";
 import { useActionState } from "react";
 
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
+import { OrDivider } from "@/components/auth/or-divider";
 import { ResendConfirmationButton } from "@/components/auth/resend-confirmation-button";
 import { Alert, Button, FormField, Heading, Stack, Text } from "@/components/ui";
 import { Input } from "@/components/ui/form/input";
@@ -16,8 +17,8 @@ export function SignUpForm() {
 
   if (state.status === "confirmation-required") {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-lg border border-line-subtle bg-surface p-8 text-center">
-        <MailCheck className="size-8 text-brand" strokeWidth={1.5} aria-hidden="true" />
+      <div className="animate-hero-in flex flex-col items-center gap-3 rounded-lg border border-line-subtle bg-surface p-8 text-center">
+        <MailCheck className="size-8 animate-icon-pop text-brand" strokeWidth={1.5} aria-hidden="true" />
         <Heading as="h2" size="h4">
           Confirm your email
         </Heading>
@@ -37,13 +38,7 @@ export function SignUpForm() {
     <>
       <OAuthButtons />
 
-      <div className="my-6 flex items-center gap-3" aria-hidden="true">
-        <div className="h-px flex-1 bg-line-subtle" />
-        <Text size="body-sm" tone="faint">
-          or
-        </Text>
-        <div className="h-px flex-1 bg-line-subtle" />
-      </div>
+      <OrDivider />
 
       <form action={formAction} noValidate>
         <Stack gap="5">

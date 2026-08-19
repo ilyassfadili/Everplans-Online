@@ -14,8 +14,9 @@ import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap",
-    "rounded-md font-medium transition-colors duration-150 ease-standard",
+    "group inline-flex items-center justify-center gap-2 whitespace-nowrap",
+    "rounded-md font-medium transition-[background-color,border-color,color,transform] duration-150 ease-standard",
+    "active:scale-[0.98] motion-reduce:active:scale-100",
     "disabled:pointer-events-none disabled:opacity-50",
   ].join(" "),
   {
@@ -26,6 +27,20 @@ const buttonVariants = cva(
           "bg-surface-muted text-ink hover:bg-line-subtle border border-line active:bg-line",
         outline:
           "border border-line-strong text-ink bg-transparent hover:bg-surface-muted active:bg-line-subtle",
+        /*
+          For outline buttons sitting on a dark/brand surface (bg-deep,
+          bg-brand) rather than the usual canvas/surface - `line-strong`
+          measures nowhere near 3:1 against either dark background, so it
+          can't be reused as-is. `ink-on-brand` is #ffffff (and, not
+          coincidentally, exactly what `ink-on-deep` also resolves to today
+          - see globals.css) so one variant covers both dark surfaces
+          without inventing a new token. The local `--focus-ring` override
+          matches Footer's own fix for the same problem: the default
+          brand-colored ring measures ~2.8:1 against either dark surface,
+          short of the 3:1 UI minimum.
+        */
+        "outline-on-dark":
+          "border border-ink-on-brand/30 text-ink-on-brand bg-transparent hover:bg-ink-on-brand/10 active:bg-ink-on-brand/15 [--focus-ring:var(--ink-on-brand)]",
         ghost: "bg-transparent text-ink hover:bg-surface-muted active:bg-line-subtle",
         destructive: "bg-error text-ink-on-brand hover:brightness-110 active:brightness-95",
       },
@@ -84,7 +99,14 @@ export function Button({
         leadingIcon
       )}
       <span>{children}</span>
-      {!loading && trailingIcon}
+      {/* The nudge is on every trailing icon automatically (not opt-in per
+          call site) so "go somewhere/do something" CTAs across the whole
+          site get the same tactile cue for free. */}
+      {!loading && trailingIcon && (
+        <span className="inline-flex transition-transform duration-150 ease-standard group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0">
+          {trailingIcon}
+        </span>
+      )}
     </>
   );
 

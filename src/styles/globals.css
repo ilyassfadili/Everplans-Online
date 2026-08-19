@@ -110,11 +110,13 @@
 }
 
 @theme inline {
-  /* Fonts - raw values are set by next/font on <html>; see layout.tsx. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+  /* Fonts - raw value is set by next/font on <html>; see layout.tsx. One
+     face, Outfit, for both roles - display and sans alias the same
+     variable rather than two separate font files. */
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman",
-    serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
   /* Colors - every semantic token above, aliased into Tailwind's palette
      so `bg-canvas`, `text-ink-muted`, `border-line`, `bg-brand` etc. exist
@@ -424,5 +426,70 @@
     border: none;
     border-top: 1px solid var(--line-subtle);
     margin: 2.5em 0;
+  }
+}
+
+/* ---- Motion system --------------------------------------------------
+   A handful of named keyframes, not a general animation library - each
+   one backs exactly one reusable pattern (hero/above-fold entrance, the
+   Reveal component's scroll-in, an accordion panel easing open, a small
+   icon swap). Below-the-fold content uses Tailwind's own transition
+   utilities directly in components instead of a class here, since
+   Tailwind already covers "animate between two known states" - these
+   keyframes exist only for the "animate from nothing, once, on
+   mount/open" cases Tailwind doesn't have a utility for. Already covered
+   by the reduced-motion rule above (animation-duration forced to
+   0.01ms), so nothing here needs its own reduced-motion override. */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes accordion-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes icon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@layer components {
+  /* Hero/above-the-fold entrance - pure CSS, no JS, so it plays the
+     instant styles load rather than waiting on React hydration. `both`
+     holds the pre-animation (opacity: 0) state until each element's own
+     delay elapses, so a staggered sequence never flashes everything
+     visible before animating. Pair with an inline `animationDelay` for
+     stagger; see Home's Hero for the pattern. */
+  .animate-hero-in {
+    animation: reveal-up 700ms var(--ease-standard) both;
+  }
+
+  .animate-accordion-reveal {
+    animation: accordion-reveal 200ms var(--ease-standard) both;
+  }
+
+  .animate-icon-pop {
+    animation: icon-pop 150ms var(--ease-standard) both;
   }
 }

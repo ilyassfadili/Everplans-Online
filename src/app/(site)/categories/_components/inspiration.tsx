@@ -1,4 +1,4 @@
-import { Container, Heading, Section, Text } from "@/components/ui";
+import { Container, Heading, Reveal, Section, Text } from "@/components/ui";
 
 const prompts = [
   "A big move or milestone",
@@ -16,17 +16,19 @@ export function Inspiration() {
   return (
     <Section background="canvas">
       <Container size="narrow" className="text-center">
-        <Heading as="h2">What are you working toward?</Heading>
-        <Text size="body-lg" tone="muted" className="mx-auto mt-3 max-w-lg">
-          Everplans is built for the kind of planning that doesn’t fit on a sticky note -
-          whatever that looks like for you.
-        </Text>
+        <Reveal>
+          <Heading as="h2">What are you working toward?</Heading>
+          <Text size="body-lg" tone="muted" className="mx-auto mt-3 max-w-lg">
+            Everplans is built for the kind of planning that doesn’t fit on a sticky note -
+            whatever that looks like for you.
+          </Text>
+        </Reveal>
 
         <ul className="mx-auto mt-10 flex max-w-xl flex-col divide-y divide-line-subtle border-y border-line-subtle text-left">
-          {prompts.map((prompt) => (
-            <li key={prompt} className="py-4 text-body text-ink-muted">
+          {prompts.map((prompt, index) => (
+            <Reveal as="li" key={prompt} delay={100 + index * 70} className="py-4 text-body text-ink-muted">
               {prompt}
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Container>

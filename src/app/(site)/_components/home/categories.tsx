@@ -1,4 +1,4 @@
-import { Button, Container, Eyebrow, Heading, Section, Text } from "@/components/ui";
+import { Button, Container, Eyebrow, Heading, Reveal, Section, Text } from "@/components/ui";
 
 /**
  * A bento of bordered, unlabeled modules in varied sizes - same grammar as
@@ -34,11 +34,14 @@ export function Categories() {
     <Section background="surface-muted">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="order-2 flex justify-center lg:order-1 lg:justify-start">
+          <Reveal className="order-2 flex justify-center lg:order-1 lg:justify-start">
             <CategoryMotif />
-          </div>
+          </Reveal>
 
-          <div className="order-1 flex flex-col items-center gap-4 text-center lg:order-2 lg:items-start lg:text-left">
+          <Reveal
+            delay={100}
+            className="order-1 flex flex-col items-center gap-4 text-center lg:order-2 lg:items-start lg:text-left"
+          >
             <Eyebrow>One platform, many ways to plan</Eyebrow>
             <Heading as="h2">Organized around what you’re actually planning</Heading>
             <Text size="body-lg" tone="muted">
@@ -51,7 +54,7 @@ export function Categories() {
                 Explore Categories
               </Button>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </Section>

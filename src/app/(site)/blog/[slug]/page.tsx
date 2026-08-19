@@ -81,12 +81,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <span>{article.readingTimeMinutes} min read</span>
             </div>
           </div>
-        </Container>
-      </Section>
 
-      <Section spacing="sm" background="canvas">
-        <Container size="narrow">
-          <Prose html={article.content} />
+          <Prose html={article.content} className="mt-10 md:mt-12" />
         </Container>
       </Section>
 

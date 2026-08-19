@@ -15,6 +15,7 @@ export { Spinner } from "./spinner";
 export { EmptyState } from "./empty-state";
 export { Prose } from "./prose";
 export { ProgressRing } from "./progress-ring";
+export { Reveal } from "./reveal";
 
 export { Label } from "./form/label";
 export { Input, type InputProps } from "./form/input";

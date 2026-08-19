@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 
 import { AuthCard } from "@/components/auth/auth-card";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
-import { Link, Text } from "@/components/ui";
+import { OrDivider } from "@/components/auth/or-divider";
+import { Alert, Link, Text } from "@/components/ui";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import { SignInForm } from "./_components/sign-in-form";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default async function SignInPage() {
+export default async function SignInPage(props: PageProps<"/sign-in">) {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -24,17 +25,25 @@ export default async function SignInPage() {
     redirect("/");
   }
 
+  // Set by /auth/confirm's catch-all redirect when a confirmation link
+  // didn't verify (expired, already used, or malformed) - it deliberately
+  // doesn't say which, and neither do we, so this never becomes an
+  // account-enumeration or internal-error surface.
+  const { confirm } = await props.searchParams;
+  const confirmFailed = confirm === "error";
+
   return (
     <AuthCard title="Sign in" subtitle="Welcome back to Everplans.">
+      {confirmFailed && (
+        <Alert variant="error" title="Couldn't confirm your email" className="mb-6">
+          That link may have expired or already been used. Sign in below - if your email
+          still needs confirming, we&rsquo;ll give you the option to resend it.
+        </Alert>
+      )}
+
       <OAuthButtons />
 
-      <div className="my-6 flex items-center gap-3" aria-hidden="true">
-        <div className="h-px flex-1 bg-line-subtle" />
-        <Text size="body-sm" tone="faint">
-          or
-        </Text>
-        <div className="h-px flex-1 bg-line-subtle" />
-      </div>
+      <OrDivider />
 
       <SignInForm />
 

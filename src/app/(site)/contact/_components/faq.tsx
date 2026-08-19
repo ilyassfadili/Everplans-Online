@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem, Container, Heading, Section } from "@/components/ui";
+import { Accordion, AccordionItem, Container, Heading, Reveal, Section } from "@/components/ui";
 
 const faqs = [
   {
@@ -21,18 +21,20 @@ export function ContactFaq() {
   return (
     <Section background="canvas">
       <Container size="narrow">
-        <Heading as="h2" size="h3" className="text-center">
-          A few things worth knowing
-        </Heading>
-        <div className="mt-8">
-          <Accordion>
-            {faqs.map((faq) => (
-              <AccordionItem key={faq.question} name="contact-faq" question={faq.question}>
-                {faq.answer}
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+        <Reveal>
+          <Heading as="h2" size="h3" className="text-center">
+            A few things worth knowing
+          </Heading>
+          <div className="mt-8">
+            <Accordion>
+              {faqs.map((faq) => (
+                <AccordionItem key={faq.question} name="contact-faq" question={faq.question}>
+                  {faq.answer}
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </Reveal>
       </Container>
     </Section>
   );

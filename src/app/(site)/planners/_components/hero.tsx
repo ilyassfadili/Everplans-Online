@@ -19,16 +19,16 @@ import { Button, Container, Eyebrow, Heading, Section, Text } from "@/components
  * (Organize / Decide / Track), never an invented planner or category name,
  * so this still represents the *concept* of the library rather than a
  * catalog that doesn't exist yet. The fourth, dashed slot borrows
- * GrowthStrip's "+" language from further down this same page, so "still
+ * GrowthPath's "+" language from further down this same page, so "still
  * growing" reads consistently in both places. `aria-hidden` because it
  * adds nothing a screen reader user needs beyond what the hero copy
  * already says.
  */
 function LibraryPreview() {
   const cards: { icon: LucideIcon; title: string; note: string }[] = [
-    { icon: NotebookPen, title: "Organize", note: "One place, not scattered" },
-    { icon: Target, title: "Decide", note: "Walk through, not just fill in" },
-    { icon: Compass, title: "Track", note: "See where you stand" },
+    { icon: NotebookPen, title: "Organize", note: "Your plan, not scattered notes" },
+    { icon: Target, title: "Decide", note: "Guided decisions, not blank forms" },
+    { icon: Compass, title: "Track", note: "See your plan's progress" },
   ];
 
   return (
@@ -89,17 +89,31 @@ export function PlannersHero() {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="text-center">
-            <Eyebrow className="text-accent">Planners</Eyebrow>
-            <Heading as="h1" size="display" className="mt-3 text-ink-on-deep">
+            <Eyebrow tone="accent" className="animate-hero-in" style={{ animationDelay: "40ms" }}>
+              Planners
+            </Eyebrow>
+            <Heading
+              as="h1"
+              size="display"
+              className="animate-hero-in mt-3 text-ink-on-deep"
+              style={{ animationDelay: "110ms" }}
+            >
               Structure for the plans that actually matter
             </Heading>
-            <Text size="body-lg" className="mx-auto mt-5 max-w-xl text-ink-on-deep-muted">
+            <Text
+              size="body-lg"
+              className="mx-auto mt-5 max-w-xl animate-hero-in text-ink-on-deep-muted"
+              style={{ animationDelay: "190ms" }}
+            >
               A planner on Everplans isn&rsquo;t a blank document - it&rsquo;s an interactive,
               structured tool built around one specific kind of plan, organized into steps you
               can work through, track, and come back to. We&rsquo;re building that library now,
               one category at a time.
             </Text>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            <div
+              className="animate-hero-in mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
+              style={{ animationDelay: "270ms" }}
+            >
               <Button
                 href="/categories"
                 variant="secondary"
@@ -107,17 +121,15 @@ export function PlannersHero() {
               >
                 Explore Categories
               </Button>
-              <Button
-                href="/about"
-                variant="outline"
-                className="border-ink-on-deep/30 text-ink-on-deep hover:bg-ink-on-deep/10"
-              >
+              <Button href="/about" variant="outline-on-dark">
                 About Everplans
               </Button>
             </div>
           </div>
 
-          <LibraryPreview />
+          <div className="animate-hero-in" style={{ animationDelay: "220ms" }}>
+            <LibraryPreview />
+          </div>
         </div>
       </Container>
     </Section>

@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { AlertTriangle, CheckCircle2, Info, XCircle, type LucideIcon } from "lucide-react";
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
 
 import { cn } from "@/lib/cn";
 
@@ -35,14 +35,17 @@ const variantIcon: Record<NonNullable<VariantProps<typeof alertVariants>["varian
 interface AlertProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {
   title?: string;
   children: ReactNode;
+  /** React 19 accepts `ref` as a plain prop on function components - no `forwardRef` needed. */
+  ref?: Ref<HTMLDivElement>;
 }
 
 /** Inline feedback banner - form-level status, page-level notices. Not a toast. */
-export function Alert({ variant, title, className, children, ...props }: AlertProps) {
+export function Alert({ variant, title, className, children, ref, ...props }: AlertProps) {
   const resolvedVariant = variant ?? "info";
   const VariantIcon = variantIcon[resolvedVariant];
   return (
     <div
+      ref={ref}
       role={resolvedVariant === "error" ? "alert" : "status"}
       className={cn(alertVariants({ variant }), className)}
       {...props}

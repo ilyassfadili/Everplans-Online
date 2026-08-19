@@ -102,31 +102,47 @@ export function Hero() {
       <Container>
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-center gap-6 text-center">
-            <Eyebrow className="text-accent">Interactive digital planners</Eyebrow>
-            <Heading as="h1" size="display" className="text-ink-on-deep">
+            <Eyebrow
+              tone="accent"
+              className="animate-hero-in"
+              style={{ animationDelay: "40ms" }}
+            >
+              Interactive digital planners
+            </Eyebrow>
+            <Heading
+              as="h1"
+              size="display"
+              className="animate-hero-in text-ink-on-deep"
+              style={{ animationDelay: "110ms" }}
+            >
               Give your plans somewhere to live.
             </Heading>
-            <Text size="body-lg" className="mx-auto max-w-xl text-ink-on-deep-muted">
+            <Text
+              size="body-lg"
+              className="mx-auto max-w-xl animate-hero-in text-ink-on-deep-muted"
+              style={{ animationDelay: "190ms" }}
+            >
               Everplans is a digital planning platform built around interactive planners -
               structured, thoughtfully designed tools for the parts of life that deserve more
               than a note app, a spreadsheet, and a dozen open tabs.
             </Text>
-            <div className="flex flex-wrap justify-center gap-3 pt-2">
+            <div
+              className="animate-hero-in flex flex-wrap justify-center gap-3 pt-2"
+              style={{ animationDelay: "270ms" }}
+            >
               <Button href="/planners" variant="secondary" size="lg">
                 Explore Planners
               </Button>
-              <Button
-                href="/categories"
-                variant="outline"
-                size="lg"
-                className="border-ink-on-deep/30 text-ink-on-deep hover:bg-ink-on-deep/10"
-              >
+              <Button href="/categories" variant="outline-on-dark" size="lg">
                 Explore Categories
               </Button>
             </div>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
+          <div
+            className="animate-hero-in flex justify-center lg:justify-end"
+            style={{ animationDelay: "220ms" }}
+          >
             <StructurePreview />
           </div>
         </div>

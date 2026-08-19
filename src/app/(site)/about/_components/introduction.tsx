@@ -1,7 +1,7 @@
 import { FileText, Layers, LayoutGrid, NotebookPen } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Card, Container, Heading, Icon, Section, Text } from "@/components/ui";
+import { Card, Container, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 const terms: { icon: LucideIcon; term: string; definition: string }[] = [
   {
@@ -30,7 +30,7 @@ export function Introduction() {
   return (
     <Section background="surface">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <Heading as="h2">A platform, not a single tool</Heading>
           <Text size="body-lg" tone="muted" className="mt-4">
             Everplans is a platform for interactive digital planners - not one planning app, but a
@@ -39,27 +39,28 @@ export function Introduction() {
             experience. Planners are added as they’re built, each one designed around a specific
             kind of plan rather than trying to be everything at once.
           </Text>
-        </div>
+        </Reveal>
 
-        <dl className="mt-10 grid gap-5 sm:grid-cols-2">
-          {terms.map((item) => (
-            <Card
-              key={item.term}
-              padding="lg"
-              className="flex flex-col items-center gap-3 text-center sm:items-start sm:text-left"
-            >
-              <div className="flex size-10 items-center justify-center rounded-full bg-accent-subtle text-brand">
-                <Icon icon={item.icon} />
-              </div>
-              <dt className="text-body-lg font-semibold text-ink">{item.term}</dt>
-              <dd>
+        <ul className="mt-10 grid gap-5 sm:grid-cols-2">
+          {terms.map((item, index) => (
+            <Reveal as="li" key={item.term} delay={index * 70}>
+              <Card
+                padding="lg"
+                className="flex h-full flex-col items-center gap-3 text-center sm:items-start sm:text-left"
+              >
+                <div className="flex size-10 items-center justify-center rounded-full bg-accent-subtle text-brand">
+                  <Icon icon={item.icon} />
+                </div>
+                <Text size="body-lg" weight="semibold">
+                  {item.term}
+                </Text>
                 <Text size="body-sm" tone="muted">
                   {item.definition}
                 </Text>
-              </dd>
-            </Card>
+              </Card>
+            </Reveal>
           ))}
-        </dl>
+        </ul>
       </Container>
     </Section>
   );

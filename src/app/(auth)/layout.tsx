@@ -9,9 +9,11 @@ import { SkipLink } from "@/components/site/skip-link";
  * landmark for it to jump to.
  *
  * No header, no centering wrapper here on purpose: each page renders
- * `AuthSplitLayout` (`src/components/auth/split-layout.tsx`), which owns
- * the full-height split screen, the logo placement, and all the
- * responsive centering itself. This layout only needs to get out of the way.
+ * `AuthCard` (`src/components/auth/auth-card.tsx`), a single centered card
+ * that owns its own full-height centering, logo placement, and card chrome.
+ * A two-column split layout was tried and deliberately reverted - see
+ * AGENTS.md's Authentication section - so this shell only needs to get out
+ * of the way.
  */
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (

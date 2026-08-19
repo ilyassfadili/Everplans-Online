@@ -1,45 +1,54 @@
-import { Boxes, Lightbulb, TrendingUp, Wrench } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Container, Heading, Reveal, Section, Text } from "@/components/ui";
 
-import { Card, Container, Heading, Icon, Section, Text } from "@/components/ui";
-
-const values: { icon: LucideIcon; word: string; detail: string }[] = [
-  { icon: Lightbulb, word: "Clarity.", detail: "If it’s not clear, it’s not finished." },
-  { icon: Boxes, word: "Structure.", detail: "Every plan deserves real shape, not a blank page." },
-  { icon: TrendingUp, word: "Progress.", detail: "Visible, not something you have to dig for." },
-  { icon: Wrench, word: "Practicality.", detail: "Built for the plan you actually have, not an ideal one." },
+const values: { word: string; detail: string }[] = [
+  { word: "Clarity.", detail: "If it’s not clear, it’s not finished." },
+  { word: "Structure.", detail: "Every plan deserves real shape, not a blank page." },
+  { word: "Progress.", detail: "Visible, not something you have to dig for." },
+  { word: "Practicality.", detail: "Built for the plan you actually have, not an ideal one." },
 ];
 
 /*
-  Deliberately crisp - single word + one short line - a different rhetorical
-  mode from Philosophy's fuller paragraphs above, even though the themes
-  are naturally related. One explains; this one just states it.
-
-  Cards on a surface-muted band, the same treatment Home's Approach section
-  uses: canvas and surface both render literal white, so a border alone
-  wouldn't separate a white card from either - surface-muted gives the
-  cards something to actually sit on.
+  By the time a reader reaches this section, Introduction, Philosophy, and
+  Future have each already paired a circular icon badge with a heading and
+  a line of copy - a fourth repetition would read as templated rather than
+  composed. Same four words, same copy, deliberately different mode: a
+  text-led numbered index instead of an icon, set directly on the section
+  band with no card container. The numerals are a graphic/ordering device,
+  not a literal sequence (these four hold equally, none comes "first"), so
+  the list stays a <ul> and the digits are aria-hidden - a screen reader
+  gets "list of 4 items," sighted readers get the editorial numbering.
 */
 export function Values() {
   return (
     <Section background="surface-muted">
       <Container size="narrow">
-        <Heading as="h2" size="h3" className="text-center">
-          What we hold to
-        </Heading>
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-          {values.map((value) => (
-            <Card as="li" key={value.word} padding="lg">
-              <div className="flex size-10 items-center justify-center rounded-full bg-accent-subtle text-brand">
-                <Icon icon={value.icon} size="sm" />
-              </div>
-              <Text size="body-lg" weight="semibold" className="mt-4 font-display">
+        <Reveal>
+          <Heading as="h2" size="h3" className="text-center">
+            What we hold to
+          </Heading>
+        </Reveal>
+        <ul className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+          {values.map((value, index) => (
+            <Reveal
+              as="li"
+              key={value.word}
+              delay={100 + index * 70}
+              className="border-t border-line-subtle pt-5"
+            >
+              <Text
+                as="span"
+                aria-hidden="true"
+                className="block font-display text-h3 font-medium text-brand"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </Text>
+              <Text size="body-lg" weight="semibold" className="mt-2 font-display">
                 {value.word}
               </Text>
               <Text size="body-sm" tone="muted" className="mt-1">
                 {value.detail}
               </Text>
-            </Card>
+            </Reveal>
           ))}
         </ul>
       </Container>

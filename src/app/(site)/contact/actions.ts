@@ -10,8 +10,13 @@ export interface ContactFormState {
   fieldErrors?: Partial<Record<"name" | "email" | "reason" | "message", string>>;
 }
 
+// No email address, social account, or other channel exists yet for this
+// product (confirmed against src/config/site.ts and the Contact FAQ, which
+// says outright: "This form is the way to reach Everplans right now.") - so
+// this can't promise an alternative that doesn't exist. Retrying is the only
+// truthful next step available.
 const GENERIC_ERROR =
-  "Something went wrong sending your message. Please try again in a moment, or reach us another way.";
+  "Something went wrong sending your message. Please try again in a moment - this form is currently the only way to reach us.";
 
 /**
  * Server Action backing the contact form. Runs exclusively on the server -

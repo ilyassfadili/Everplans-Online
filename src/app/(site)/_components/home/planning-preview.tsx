@@ -1,10 +1,10 @@
 "use client";
 
-import { BarChart3, CircleCheck, Circle, LayoutGrid, ListChecks, TrendingUp } from "lucide-react";
+import { BarChart3, CircleCheck, Circle, LayoutGrid, ListChecks, RotateCcw, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useState } from "react";
 
-import { Container, Eyebrow, Heading, ProgressRing, Section, Text } from "@/components/ui";
+import { Container, Eyebrow, Heading, ProgressRing, Reveal, Section, Text } from "@/components/ui";
 import { cn } from "@/lib/cn";
 
 type ViewKey = "overview" | "steps" | "progress";
@@ -37,7 +37,7 @@ export function PlanningPreview() {
   return (
     <Section background="surface">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow>The planning experience</Eyebrow>
           <Heading as="h2" className="mt-3">
             One plan, seen from every angle
@@ -46,9 +46,12 @@ export function PlanningPreview() {
             A planner isn&rsquo;t a single page - it&rsquo;s a structure you can look at
             differently depending on what you need right now.
           </Text>
-        </div>
+        </Reveal>
 
-        <div className="mx-auto mt-12 grid max-w-4xl overflow-hidden rounded-2xl border border-line-subtle bg-surface shadow-xl sm:grid-cols-[13rem_1fr]">
+        <Reveal
+          delay={100}
+          className="mx-auto mt-12 grid max-w-4xl overflow-hidden rounded-2xl border border-line-subtle bg-surface shadow-xl sm:grid-cols-[13rem_1fr]"
+        >
           <nav aria-label="Planning view" className="flex gap-1 overflow-x-auto border-b border-line-subtle bg-surface-muted p-3 sm:flex-col sm:overflow-visible sm:border-b-0 sm:border-r sm:p-4">
             {views.map((view) => (
               <button
@@ -73,7 +76,12 @@ export function PlanningPreview() {
             ))}
           </nav>
 
-          <div className="p-7 sm:p-9" role="region" aria-live="polite">
+          <div
+            key={active}
+            className="animate-accordion-reveal p-7 sm:p-9"
+            role="region"
+            aria-live="polite"
+          >
             {active === "overview" && (
               <div>
                 <div className="flex items-center justify-between">
@@ -165,26 +173,39 @@ export function PlanningPreview() {
                 <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-surface-muted">
                   <div className="h-full w-[62%] rounded-full bg-brand" />
                 </div>
-                <div className="mt-7 flex flex-col gap-3 border-t border-line-subtle pt-6">
+                <div className="mt-7 flex flex-col gap-4 border-t border-line-subtle pt-6">
                   {[
-                    { label: "Sections", value: 100 },
-                    { label: "Steps", value: 58 },
-                    { label: "Follow-through", value: 30 },
+                    { label: "Sections", value: 100, icon: LayoutGrid },
+                    { label: "Steps", value: 58, icon: ListChecks },
+                    { label: "Follow-through", value: 30, icon: RotateCcw },
                   ].map((row) => (
                     <div key={row.label} className="flex items-center gap-3">
-                      <Text size="body-sm" tone="muted" className="w-28 shrink-0">
+                      <row.icon
+                        className="size-4 shrink-0 text-ink-disabled"
+                        strokeWidth={1.75}
+                        aria-hidden="true"
+                      />
+                      <Text size="body-sm" tone="muted" className="w-28 shrink-0 truncate">
                         {row.label}
                       </Text>
                       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-muted">
                         <div className="h-full rounded-full bg-brand" style={{ width: `${row.value}%` }} />
                       </div>
+                      <Text
+                        size="body-sm"
+                        weight="medium"
+                        tone="faint"
+                        className="w-9 shrink-0 text-right tabular-nums"
+                      >
+                        {row.value}%
+                      </Text>
                     </div>
                   ))}
                 </div>
               </div>
             )}
           </div>
-        </div>
+        </Reveal>
       </Container>
     </Section>
   );

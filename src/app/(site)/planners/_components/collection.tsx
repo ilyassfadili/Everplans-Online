@@ -1,34 +1,10 @@
 import { Library } from "lucide-react";
 
-import { Button, Container, EmptyState, Section } from "@/components/ui";
+import { Button, Container, EmptyState, Reveal, Section } from "@/components/ui";
 import type { Planner } from "@/types/planner";
 
+import { DiscoveryControls } from "./discovery-controls";
 import { PlannerCard } from "./planner-card";
-
-/**
- * A static grid of reserved slots - the shape the catalog will take, not a
- * loading state. No shimmer, no pulse animation: this isn't "content is on
- * its way this second," it's "this is where content will live." Uniform
- * treatment throughout (no slot styled as "next" or "featured") so nothing
- * here implies a specific timeline or order.
- */
-function ReservedSlots() {
-  return (
-    <div
-      aria-hidden="true"
-      className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6"
-    >
-      {Array.from({ length: 12 }).map((_, index) => (
-        <div
-          key={index}
-          className="flex aspect-[4/3] items-center justify-center rounded-lg border border-dashed border-line bg-surface-muted/40"
-        >
-          <div className="size-1.5 rounded-full bg-line-strong" />
-        </div>
-      ))}
-    </div>
-  );
-}
 
 interface PlannerCollectionProps {
   planners: Planner[];
@@ -39,17 +15,21 @@ interface PlannerCollectionProps {
  * list can be handed to this same component later without restructuring
  * the page - it's currently unreachable because `planners` is always `[]`,
  * not because the code is untested speculation.
+ *
+ * The disabled discovery bar rides along as `beforeContent` only while the
+ * catalog is empty - once real planners exist, real (enabled) search/filter
+ * controls belong above the populated grid instead, not here.
  */
 export function PlannerCollection({ planners }: PlannerCollectionProps) {
   return (
     <Section background="surface">
       <Container>
         {planners.length === 0 ? (
-          <>
-            <ReservedSlots />
+          <Reveal>
             <EmptyState
               icon={Library}
               titleAs="h2"
+              beforeContent={<DiscoveryControls />}
               title="The planner library is just getting started"
               description="There are no planners published yet - this is where they'll live as they're added. Explore categories to see how the collection will be organized, or check back as new planners arrive."
               action={
@@ -63,11 +43,13 @@ export function PlannerCollection({ planners }: PlannerCollectionProps) {
                 </div>
               }
             />
-          </>
+          </Reveal>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {planners.map((planner) => (
-              <PlannerCard key={planner.id} planner={planner} />
+            {planners.map((planner, index) => (
+              <Reveal key={planner.id} delay={index * 70}>
+                <PlannerCard planner={planner} />
+              </Reveal>
             ))}
           </div>
         )}

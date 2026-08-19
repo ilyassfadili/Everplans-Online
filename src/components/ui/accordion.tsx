@@ -50,7 +50,7 @@ export function AccordionItem({ name, question, children, defaultOpen }: Accordi
           aria-hidden="true"
         />
       </summary>
-      <div className="pt-3 text-body text-ink-muted">{children}</div>
+      <div className="animate-accordion-reveal pt-3 text-body text-ink-muted">{children}</div>
     </details>
   );
 }

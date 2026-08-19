@@ -1,7 +1,7 @@
 import { ArrowRight, Briefcase, Home as HomeIcon, Plus } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Button, Container, Eyebrow, Heading, Icon, Section, Text } from "@/components/ui";
+import { Button, Container, Eyebrow, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 /**
  * A row standing in for one category once real categories exist. Same fix
@@ -50,7 +50,7 @@ export function CategoryExploration() {
     <Section background="surface-muted">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          <Reveal className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <Eyebrow>Categories</Eyebrow>
             <Heading as="h2" className="mt-3">
               Another way to find the right planner
@@ -66,9 +66,11 @@ export function CategoryExploration() {
                 Explore Categories
               </Button>
             </div>
-          </div>
+          </Reveal>
 
-          <CategoryPreview />
+          <Reveal delay={100}>
+            <CategoryPreview />
+          </Reveal>
         </div>
       </Container>
     </Section>

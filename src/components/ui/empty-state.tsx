@@ -18,6 +18,14 @@ interface EmptyStateProps {
   titleAs?: HeadingTag;
   description?: string;
   action?: ReactNode;
+  /**
+   * Optional content rendered above the icon/title, inside the same
+   * panel and set off by a divider - e.g. disabled controls this empty
+   * state is explaining (see Planners' discovery bar). Kept generic
+   * rather than planner-specific so the primitive stays reusable; omit
+   * it and the panel renders exactly as it always has.
+   */
+  beforeContent?: ReactNode;
   className?: string;
 }
 
@@ -35,6 +43,7 @@ export function EmptyState({
   titleAs: TitleTag,
   description,
   action,
+  beforeContent,
   className,
 }: EmptyStateProps) {
   return (
@@ -44,6 +53,9 @@ export function EmptyState({
         className,
       )}
     >
+      {beforeContent && (
+        <div className="w-full max-w-xl border-b border-line-subtle pb-6">{beforeContent}</div>
+      )}
       {IconComponent && (
         <div className="flex size-12 items-center justify-center rounded-full bg-accent-subtle text-brand">
           <IconComponent className="size-6" strokeWidth={1.5} aria-hidden="true" />

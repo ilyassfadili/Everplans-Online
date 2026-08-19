@@ -1,4 +1,4 @@
-import { Card, Container, Eyebrow, Heading, Section, Text } from "@/components/ui";
+import { Card, Container, Eyebrow, Heading, Reveal, Section, Text } from "@/components/ui";
 
 const principles = [
   {
@@ -39,28 +39,29 @@ export function Approach() {
   return (
     <Section background="surface-muted">
       <Container>
-        <div className="mx-auto max-w-xl text-center">
+        <Reveal className="mx-auto max-w-xl text-center">
           <Eyebrow>The approach</Eyebrow>
           <Heading as="h2" className="mt-3">
             What makes it different
           </Heading>
-        </div>
+        </Reveal>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {principles.map((principle) => (
-            <Card
-              key={principle.n}
-              padding="lg"
-              className="flex flex-col items-center gap-3 text-center sm:items-start sm:text-left"
-            >
-              <span className="font-display text-4xl font-medium text-line-strong">
-                {principle.n}
-              </span>
-              <Text size="body-lg" weight="semibold">
-                {principle.title}
-              </Text>
-              <Text tone="muted">{principle.body}</Text>
-            </Card>
+          {principles.map((principle, index) => (
+            <Reveal key={principle.n} delay={index * 70}>
+              <Card
+                padding="lg"
+                className="flex h-full flex-col items-center gap-3 text-center sm:items-start sm:text-left"
+              >
+                <span className="font-display text-4xl font-medium text-line-strong">
+                  {principle.n}
+                </span>
+                <Text size="body-lg" weight="semibold">
+                  {principle.title}
+                </Text>
+                <Text tone="muted">{principle.body}</Text>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Container>

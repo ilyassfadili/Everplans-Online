@@ -1,4 +1,4 @@
-import { Container, Heading, Section, Text } from "@/components/ui";
+import { Container, Heading, Reveal, Section, Text } from "@/components/ui";
 
 /*
   The one section built on the accent tint - a light wash derived from the
@@ -25,23 +25,25 @@ export function FutureVision() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_0%,var(--accent-subtle),transparent)]"
       />
-      <Container size="narrow" className="relative text-center">
-        <span className="mx-auto block h-0.5 w-10 rounded-full bg-brand" />
-        <Text
-          size="label"
-          weight="semibold"
-          className="mt-6 uppercase tracking-[0.08em] text-ink-on-accent/70"
-        >
-          The bigger picture
-        </Text>
-        <Heading as="h2" size="display" className="mt-4 text-balance text-ink-on-accent">
-          Everplans isn’t meant to be one planner. It’s meant to be a home for many of them.
-        </Heading>
-        <Text size="body-lg" className="mx-auto mt-5 max-w-xl text-ink-on-accent/80">
-          Categories, structure, and the platform underneath come first - planners are added
-          deliberately as they’re built, each one shaped around a real kind of plan rather than
-          released to hit a schedule.
-        </Text>
+      <Container size="narrow" className="relative">
+        <Reveal className="text-center">
+          <span className="mx-auto block h-0.5 w-10 rounded-full bg-brand" />
+          <Text
+            size="label"
+            weight="semibold"
+            className="mt-6 uppercase tracking-[0.08em] text-ink-on-accent/70"
+          >
+            The bigger picture
+          </Text>
+          <Heading as="h2" size="display" className="mt-4 text-balance text-ink-on-accent">
+            Everplans isn’t meant to be one planner. It’s meant to be a home for many of them.
+          </Heading>
+          <Text size="body-lg" className="mx-auto mt-5 max-w-xl text-ink-on-accent/80">
+            Categories, structure, and the platform underneath come first - planners are added
+            deliberately as they’re built, each one shaped around a real kind of plan rather than
+            released to hit a schedule.
+          </Text>
+        </Reveal>
       </Container>
     </Section>
   );

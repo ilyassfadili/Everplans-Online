@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 
-import { Container, Eyebrow, Heading, Section, Text } from "@/components/ui";
+import { Container, Eyebrow, Heading, Reveal, Section, Text } from "@/components/ui";
 
 const sections = ["Overview", "Decisions", "Timeline", "Notes"];
 
@@ -76,20 +76,22 @@ export function ExperiencePreview() {
   return (
     <Section background="surface">
       <Container size="narrow" className="text-center">
-        <Eyebrow>Inside a planner</Eyebrow>
-        <Heading as="h2" className="mt-3">
-          What makes it different from a document
-        </Heading>
-        <Text size="body-lg" tone="muted" className="mx-auto mt-4 max-w-xl">
-          Sections, progress, and a checklist you can act on - a planner is built to hold a plan
-          in motion, not just record it once.
-        </Text>
+        <Reveal>
+          <Eyebrow>The mechanics</Eyebrow>
+          <Heading as="h2" className="mt-3">
+            What makes it different from a document
+          </Heading>
+          <Text size="body-lg" tone="muted" className="mx-auto mt-4 max-w-xl">
+            Sections, progress, and a checklist you can act on - a planner is built to hold a plan
+            in motion, not just record it once.
+          </Text>
+        </Reveal>
       </Container>
 
       <Container className="mt-10">
-        <div className="mx-auto max-w-3xl">
+        <Reveal delay={100} className="mx-auto max-w-3xl">
           <PlannerAnatomy />
-        </div>
+        </Reveal>
       </Container>
     </Section>
   );

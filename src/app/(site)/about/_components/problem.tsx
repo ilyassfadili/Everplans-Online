@@ -1,7 +1,7 @@
 import { AppWindow, MessageSquare, NotebookPen, Table2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Container, Heading, Icon, Section, Text } from "@/components/ui";
+import { Container, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 /*
   A loose, overlapping scatter of the four places the paragraph beside it
@@ -19,26 +19,33 @@ function ScatteredTools() {
   // (the two longest labels) physically overlapped "Note app" and "Browser
   // tabs" and clipped their text. Larger, responsive offsets (bigger still
   // at sm+, where there's more room) keep every label fully legible.
+  //
+  // Below 375px the container itself shrinks faster than the pills do, so
+  // the base (sub-sm) offsets are pulled in further still - at a true 320px
+  // viewport the wider "Spreadsheet"/"Messages" pills were edging into their
+  // row neighbor even with the tuning above. Tightening only the un-prefixed
+  // values (sm+ is untouched) keeps the same scattered composition at every
+  // size while giving the smallest phones enough clearance.
   const tools: { icon: LucideIcon; label: string; offset: string }[] = [
     {
       icon: NotebookPen,
       label: "Note app",
-      offset: "-rotate-6 -translate-x-16 -translate-y-10 sm:-translate-x-24 sm:-translate-y-12",
+      offset: "-rotate-6 -translate-x-12 -translate-y-10 sm:-translate-x-24 sm:-translate-y-12",
     },
     {
       icon: Table2,
       label: "Spreadsheet",
-      offset: "rotate-4 translate-x-16 -translate-y-12 sm:translate-x-24 sm:-translate-y-14",
+      offset: "rotate-4 translate-x-12 -translate-y-12 sm:translate-x-24 sm:-translate-y-14",
     },
     {
       icon: AppWindow,
       label: "Browser tabs",
-      offset: "rotate-3 -translate-x-16 translate-y-10 sm:-translate-x-24 sm:translate-y-12",
+      offset: "rotate-3 -translate-x-12 translate-y-10 sm:-translate-x-24 sm:translate-y-12",
     },
     {
       icon: MessageSquare,
       label: "Messages",
-      offset: "-rotate-4 translate-x-16 translate-y-12 sm:translate-x-24 sm:translate-y-14",
+      offset: "-rotate-4 translate-x-12 translate-y-12 sm:translate-x-24 sm:translate-y-14",
     },
   ];
 
@@ -67,7 +74,7 @@ export function ScatteredPlanningProblem() {
     <Section background="surface-muted">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <div className="text-center lg:text-left">
+          <Reveal className="text-center lg:text-left">
             <Heading as="h2" className="text-balance">
               Most planning doesn’t fail from lack of effort - it fails from lack of structure.
             </Heading>
@@ -83,9 +90,11 @@ export function ScatteredPlanningProblem() {
                 to pick back up after a week away from it.
               </Text>
             </div>
-          </div>
+          </Reveal>
 
-          <ScatteredTools />
+          <Reveal delay={100}>
+            <ScatteredTools />
+          </Reveal>
         </div>
       </Container>
     </Section>

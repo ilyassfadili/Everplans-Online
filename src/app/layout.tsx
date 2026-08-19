@@ -1,30 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 import "@/styles/globals.css";
 
 /*
-  Two families, deliberately paired rather than one face stretched across
-  every role. Fraunces (a soft-serif with real optical-size character at
-  display sizes) carries headline moments; Inter - already proven for body
-  copy and UI density - handles everything from H3 down. Both are variable
-  fonts, both self-hosted by next/font, both exposed as CSS variables that
-  the design system's --font-sans / --font-display tokens read from
+  One family, sitewide (2026-08-19) - Outfit replaced the earlier
+  Fraunces/Inter pairing everywhere, headline moments and body copy alike.
+  A single geometric sans reads as more uniformly "2026 product" than a
+  serif/sans split; weight and size carry the hierarchy the two faces used
+  to. Self-hosted via next/font, exposed as one CSS variable that the
+  design system's --font-sans AND --font-display tokens both read from
   (see globals.css) rather than being reached for directly.
 */
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-fraunces",
-  axes: ["opsz", "SOFT", "WONK"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -35,6 +28,10 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  icons: {
+    icon: "/favicon/favicon.png",
+    apple: "/favicon/apple-touch-icon.png",
+  },
   openGraph: {
     siteName: siteConfig.name,
     locale: "en_US",
@@ -61,7 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // navigations, making every route change scroll smoothly instead of
       // snapping instantly. See Next's version-16 upgrade notes.
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${fraunces.variable}`}
+      className={outfit.variable}
     >
       <body>
         <JsonLd />

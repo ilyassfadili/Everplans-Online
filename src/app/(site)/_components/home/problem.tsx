@@ -1,7 +1,7 @@
 import { ArrowRight, BarChart3, LineChart, PieChart } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Container, Heading, Section, Text } from "@/components/ui";
+import { Container, Heading, Reveal, Section, Text } from "@/components/ui";
 
 /*
   A visual "before/after" that maps onto the copy beside it, rather than
@@ -61,7 +61,7 @@ export function Problem() {
     <Section background="canvas">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
-          <div className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
+          <Reveal className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
             <Heading as="h2" className="text-balance">
               A plan starts in your head. Then it’s in five different apps.
             </Heading>
@@ -75,9 +75,11 @@ export function Problem() {
               doesn’t adapt as the plan changes, and it definitely doesn’t show you
               what’s actually left to do.
             </Text>
-          </div>
+          </Reveal>
 
-          <ScatteredToStructured />
+          <Reveal delay={100}>
+            <ScatteredToStructured />
+          </Reveal>
         </div>
       </Container>
     </Section>

@@ -1,4 +1,4 @@
-import { Card, Container, Eyebrow, Heading, Section, Text } from "@/components/ui";
+import { Card, Container, Eyebrow, Heading, Reveal, Section, Text } from "@/components/ui";
 
 const steps: { number: string; title: string; description: string }[] = [
   {
@@ -31,34 +31,34 @@ export function HowToChoose() {
   return (
     <Section background="canvas">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow>Choosing a planner</Eyebrow>
           <Heading as="h2" className="mt-3">
             How to choose the right planner
           </Heading>
-        </div>
+        </Reveal>
 
         <ol className="mt-10 grid gap-5 sm:grid-cols-2">
-          {steps.map((step) => (
-            <Card
-              as="li"
-              key={step.number}
-              padding="lg"
-              className="flex flex-col items-center text-center sm:items-start sm:text-left"
-            >
-              <span
-                className="flex size-10 items-center justify-center rounded-full bg-accent-subtle font-display text-body font-medium text-brand"
-                aria-hidden="true"
+          {steps.map((step, index) => (
+            <Reveal as="li" key={step.number} delay={index * 70}>
+              <Card
+                padding="lg"
+                className="flex h-full flex-col items-center text-center sm:items-start sm:text-left"
               >
-                {step.number}
-              </span>
-              <Text as="p" weight="semibold" className="mt-4 text-body-lg">
-                {step.title}
-              </Text>
-              <Text size="body-sm" tone="muted" className="mt-2">
-                {step.description}
-              </Text>
-            </Card>
+                <span
+                  className="flex size-10 items-center justify-center rounded-full bg-accent-subtle font-display text-body font-medium text-brand"
+                  aria-hidden="true"
+                >
+                  {step.number}
+                </span>
+                <Text as="p" weight="semibold" className="mt-4 text-body-lg">
+                  {step.title}
+                </Text>
+                <Text size="body-sm" tone="muted" className="mt-2">
+                  {step.description}
+                </Text>
+              </Card>
+            </Reveal>
           ))}
         </ol>
       </Container>

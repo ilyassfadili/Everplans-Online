@@ -1,4 +1,4 @@
-import { Badge, Card, CardDescription, CardHeader, CardTitle, Container, Link, Section, Text } from "@/components/ui";
+import { Badge, Card, CardDescription, CardHeader, CardTitle, Container, Link, Reveal, Section, Text } from "@/components/ui";
 import type { Article } from "@/types/article";
 
 interface FeaturedArticleProps {
@@ -18,18 +18,20 @@ export function FeaturedArticle({ article }: FeaturedArticleProps) {
   return (
     <Section background="surface" spacing="sm">
       <Container>
-        <Link href={`/blog/${article.slug}`} className="block">
-          <Card variant="interactive" padding="lg" className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-center">
-            <CardHeader>
-              <Badge variant="brand">{article.category}</Badge>
-              <CardTitle className="mt-3 text-h3">{article.title}</CardTitle>
-              <CardDescription className="mt-2">{article.excerpt}</CardDescription>
-              <Text size="caption" tone="faint" className="mt-4">
-                {article.readingTimeMinutes} min read
-              </Text>
-            </CardHeader>
-          </Card>
-        </Link>
+        <Reveal>
+          <Link href={`/blog/${article.slug}`} className="block no-underline">
+            <Card variant="interactive" padding="lg">
+              <CardHeader>
+                <Badge variant="brand">{article.category}</Badge>
+                <CardTitle className="mt-3 text-h3">{article.title}</CardTitle>
+                <CardDescription className="mt-2">{article.excerpt}</CardDescription>
+                <Text size="caption" tone="faint" className="mt-4">
+                  {article.readingTimeMinutes} min read
+                </Text>
+              </CardHeader>
+            </Card>
+          </Link>
+        </Reveal>
       </Container>
     </Section>
   );

@@ -1,7 +1,7 @@
 import { GitBranch, Layers, RotateCcw, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Container, Heading, Icon, Section, Text } from "@/components/ui";
+import { Container, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 const capabilities: { icon: LucideIcon; title: string; description: string }[] = [
   {
@@ -36,7 +36,7 @@ export function DiscoveryIntroduction() {
     <Section background="surface">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <div className="text-center lg:text-left">
+          <Reveal className="text-center lg:text-left">
             <Heading as="h2" className="text-balance">
               How a planner is meant to work
             </Heading>
@@ -45,22 +45,28 @@ export function DiscoveryIntroduction() {
               interactive space designed around the specific thing you&rsquo;re planning,
               built to bring structure and clarity to it.
             </Text>
-          </div>
+          </Reveal>
 
-          <dl className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
-            {capabilities.map((capability) => (
-              <div
+          <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
+            {capabilities.map((capability, index) => (
+              <Reveal
+                as="li"
                 key={capability.title}
+                delay={100 + index * 70}
                 className="flex flex-col items-center gap-3 text-center lg:items-start lg:text-left"
               >
                 <div className="flex size-10 items-center justify-center rounded-full bg-accent-subtle text-brand">
                   <Icon icon={capability.icon} />
                 </div>
-                <dt className="text-body font-semibold text-ink">{capability.title}</dt>
-                <dd className="text-body-sm text-ink-muted">{capability.description}</dd>
-              </div>
+                <Text size="body" weight="semibold">
+                  {capability.title}
+                </Text>
+                <Text size="body-sm" tone="muted">
+                  {capability.description}
+                </Text>
+              </Reveal>
             ))}
-          </dl>
+          </ul>
         </div>
       </Container>
     </Section>

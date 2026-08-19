@@ -10,11 +10,22 @@ export function ContactHero() {
   return (
     <Section spacing="lg" background="deep">
       <Container size="narrow" className="text-center">
-        <Eyebrow className="text-accent">Contact</Eyebrow>
-        <Heading as="h1" size="display" className="mt-3 text-ink-on-deep">
+        <Eyebrow tone="accent" className="animate-hero-in" style={{ animationDelay: "40ms" }}>
+          Contact
+        </Eyebrow>
+        <Heading
+          as="h1"
+          size="display"
+          className="animate-hero-in mt-3 text-ink-on-deep"
+          style={{ animationDelay: "110ms" }}
+        >
           Send us a message
         </Heading>
-        <Text size="body-lg" className="mx-auto mt-4 max-w-xl text-ink-on-deep-muted">
+        <Text
+          size="body-lg"
+          className="mx-auto mt-4 max-w-xl animate-hero-in text-ink-on-deep-muted"
+          style={{ animationDelay: "190ms" }}
+        >
           Questions about Everplans, feedback on what you’d like to see, or something else
           entirely - this is the direct line.
         </Text>

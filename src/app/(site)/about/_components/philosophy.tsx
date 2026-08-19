@@ -1,7 +1,7 @@
 import { Compass, Eye, LayoutGrid, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { Container, Heading, Icon, Section, Text } from "@/components/ui";
+import { Container, Heading, Icon, Reveal, Section, Text } from "@/components/ui";
 
 const principles: { icon: LucideIcon; title: string; body: string }[] = [
   {
@@ -39,12 +39,18 @@ export function Philosophy() {
   return (
     <Section background="canvas">
       <Container size="narrow">
-        <Heading as="h2" className="text-center">
-          The thinking behind it
-        </Heading>
+        <Reveal>
+          <Heading as="h2" className="text-center">
+            The thinking behind it
+          </Heading>
+        </Reveal>
         <div className="mt-10 flex flex-col divide-y divide-line-subtle border-t border-line-subtle">
-          {principles.map((principle) => (
-            <div key={principle.title} className="flex gap-5 py-7 sm:gap-6">
+          {principles.map((principle, index) => (
+            <Reveal
+              key={principle.title}
+              delay={100 + index * 70}
+              className="flex gap-5 py-7 sm:gap-6"
+            >
               <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent-subtle text-brand">
                 <Icon icon={principle.icon} />
               </div>
@@ -56,7 +62,7 @@ export function Philosophy() {
                   {principle.body}
                 </Text>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Container>

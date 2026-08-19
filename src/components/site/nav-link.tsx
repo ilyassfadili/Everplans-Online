@@ -20,7 +20,11 @@ interface NavLinkProps {
  */
 export function NavLink({ item, className, onNavigate }: NavLinkProps) {
   const pathname = usePathname();
-  const isCurrent = pathname === item.href;
+  // Root ("/") only matches exactly, or every route would light up Home.
+  // Everything else also matches its own nested routes (e.g. `/blog`
+  // stays current on `/blog/example-article`).
+  const isCurrent =
+    item.href === "/" ? pathname === "/" : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
   return (
     <Link

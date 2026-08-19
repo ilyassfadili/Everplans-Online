@@ -34,3 +34,6 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+/** One of `CONTACT_REASONS`' `value`s - used to pre-select a reason from outside the form (see `ContactOptions`). */
+export type ContactReason = (typeof CONTACT_REASONS)[number]["value"];

@@ -9,10 +9,12 @@ import { cn } from "@/lib/cn";
   page from reaching for `<h2>` just because it wants bigger text ("Do not
   use headings merely for visual sizing").
 
-  Fraunces (--font-display) carries display/h1/h2 - the headline moments.
-  h3/h4 drop to Inter (--font-sans): they usually sit in denser UI contexts
-  (card titles, FAQ questions) next to body copy, where a second display
-  face stops reading as premium and starts reading as inconsistent.
+  --font-display and --font-sans both resolve to Outfit (see globals.css) -
+  one face sitewide since 2026-08-19. The two token names stay separate
+  here anyway: `as`/`size` decoupling is still the point (a page must pick
+  the correct heading tag for its outline position regardless of how it
+  looks), and a future display face only needs a token swap, not a
+  rewrite of every call site.
 */
 
 type HeadingSize = "display" | "h1" | "h2" | "h3" | "h4";
@@ -117,7 +119,7 @@ interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
 
 const eyebrowToneClass: Record<NonNullable<EyebrowProps["tone"]>, string> = {
   brand: "text-brand",
-  accent: "text-ink-muted",
+  accent: "text-accent",
   muted: "text-ink-faint",
 };
 

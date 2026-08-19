@@ -4,7 +4,6 @@ import type { Planner } from "@/types/planner";
 
 import { CategoryExploration } from "./_components/category-exploration";
 import { PlannerCollection } from "./_components/collection";
-import { DiscoveryControls } from "./_components/discovery-controls";
 import { DiscoveryIntroduction } from "./_components/discovery-introduction";
 import { ExperiencePreview } from "./_components/experience-preview";
 import { PlannersFinalCta } from "./_components/final-cta";
@@ -28,7 +27,6 @@ export default function PlannersPage() {
     <>
       <PlannersHero />
       <DiscoveryIntroduction />
-      <DiscoveryControls />
       <PlannerCollection planners={planners} />
       <CategoryExploration />
       <HowToChoose />

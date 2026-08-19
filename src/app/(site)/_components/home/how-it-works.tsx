@@ -1,4 +1,4 @@
-import { Container, Eyebrow, Heading, Section, Text } from "@/components/ui";
+import { Container, Eyebrow, Heading, Reveal, Section, Text } from "@/components/ui";
 
 const steps = [
   { title: "Choose what you’re planning", body: "Find the planner built for the specific thing you’re working on." },
@@ -18,12 +18,12 @@ export function HowItWorks() {
   return (
     <Section background="canvas">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow>How it works</Eyebrow>
           <Heading as="h2" className="mt-3">
             From idea to something you can actually work through
           </Heading>
-        </div>
+        </Reveal>
 
         <ol className="relative mt-14 grid gap-10 sm:grid-cols-4 sm:gap-6">
           <div
@@ -31,7 +31,7 @@ export function HowItWorks() {
             className="absolute left-[0.5rem] top-0 h-full w-px bg-line sm:left-0 sm:top-[0.5rem] sm:h-px sm:w-full"
           />
           {steps.map((step, i) => (
-            <li key={step.title} className="relative flex gap-4 pl-8 sm:flex-col sm:gap-0 sm:pl-0">
+            <Reveal key={step.title} as="li" delay={i * 70} className="relative flex gap-4 pl-8 sm:flex-col sm:gap-0 sm:pl-0">
               <span
                 aria-hidden="true"
                 className="absolute left-0 top-0 flex size-4 items-center justify-center rounded-full border-2 border-brand bg-canvas sm:relative sm:mb-6"
@@ -47,7 +47,7 @@ export function HowItWorks() {
                   {step.body}
                 </Text>
               </div>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </Container>
