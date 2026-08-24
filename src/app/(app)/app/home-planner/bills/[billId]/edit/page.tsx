@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
 import { getBillById } from "@/lib/home-planner/bills";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { EditBillForm } from "./_components/edit-bill-form";
 
@@ -19,11 +19,7 @@ export const metadata: Metadata = {
 /** Edit bill details - the same `BillFormFields` used to create the bill, pre-filled with its current values. */
 export default async function EditBillPage({ params }: EditBillPageProps) {
   const { billId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const bill = await getBillById(home.id, billId);
 

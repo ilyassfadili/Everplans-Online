@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
 import type { SelectOption } from "@/components/ui/form/select";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getMaintenanceTaskById } from "@/lib/home-planner/maintenance";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
@@ -21,11 +21,7 @@ export const metadata: Metadata = {
 /** Edit task details - the same `MaintenanceTaskFormFields` used to create the task, pre-filled with its current values. */
 export default async function EditTaskPage({ params }: EditTaskPageProps) {
   const { taskId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [task, rooms] = await Promise.all([getMaintenanceTaskById(home.id, taskId), getRoomsForHome(home.id)]);
 

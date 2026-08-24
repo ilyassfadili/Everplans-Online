@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import type { SelectOption } from "@/components/ui/form/select";
 import { getInventoryForHome } from "@/lib/home-planner/inventory";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
 import { AddItemForm } from "./_components/add-item-form";
@@ -21,11 +20,7 @@ export const metadata: Metadata = {
  * no workspace yet redirects to setup.
  */
 export default async function InventoryPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [items, rooms] = await Promise.all([getInventoryForHome(home.id), getRoomsForHome(home.id)]);
   const roomOptions: SelectOption[] = rooms.map((room) => ({ value: room.id, label: room.name }));

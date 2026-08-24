@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import type { SelectOption } from "@/components/ui/form/select";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getMaintenanceTasksForHome } from "@/lib/home-planner/maintenance";
 import { calculateMaintenanceStatus } from "@/lib/home-planner/maintenance-status";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
@@ -23,11 +22,7 @@ export const metadata: Metadata = {
  * is: no workspace yet redirects to setup.
  */
 export default async function MaintenancePage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [tasks, rooms] = await Promise.all([getMaintenanceTasksForHome(home.id), getRoomsForHome(home.id)]);
   const roomOptions: SelectOption[] = rooms.map((room) => ({ value: room.id, label: room.name }));

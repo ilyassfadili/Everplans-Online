@@ -1,8 +1,11 @@
 import "server-only";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { HOME_PLANNER_PRODUCT } from "@/config/products/home-planner";
 import { requireUser } from "@/lib/auth/dal";
+import { hasProductAccess } from "@/lib/entitlements";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Home, HomeType, OwnershipStatus } from "@/types/home-planner";
 
@@ -61,9 +64,12 @@ function mapHomeRow(row: HomeRow): Home {
 
 /**
  * Returns the current user's home workspace, or `null` if they haven't set
- * one up yet - the signal every Home Planner route uses to decide "show the
- * workspace" vs. "show the foundation/setup state". Redirects to sign-in
- * via `requireUser()` if there's no session at all.
+ * one up yet - "does a home exist," on its own, with no opinion on
+ * entitlement. Every Home Planner *page*, in contrast, calls
+ * `requireHomeForCurrentUser()` below - the entitlement-authoritative gate
+ * (Prompt 6), the same split `getTripForCurrentUser()`/
+ * `requireTripForCurrentUser()` (Travel Planner) already establishes.
+ * Redirects to sign-in via `requireUser()` if there's no session at all.
  */
 export async function getHomeForCurrentUser(): Promise<Home | null> {
   const user = await requireUser();
@@ -82,6 +88,59 @@ export async function getHomeForCurrentUser(): Promise<Home | null> {
   }
 
   return data ? mapHomeRow(data) : null;
+}
+
+export type HomePlannerAccessResult =
+  /** No active Home Planner entitlement - the customer needs to buy it (or a prior purchase's entitlement was revoked/refunded) before anything else. Authoritative and checked BEFORE home existence, the same rule `resolveTravelPlannerAccess` already establishes. */
+  | { status: "needs-purchase" }
+  /** Entitled, but hasn't completed home setup yet - no `homes` row exists. */
+  | { status: "needs-onboarding" }
+  /** Entitled AND set up - the only state that returns a real, usable `home`. */
+  | { status: "granted"; home: Home };
+
+/**
+ * The single, reusable "can the current user use Home Planner right now"
+ * check (Prompt 6) - every Home Planner page calls this (via
+ * `requireHomeForCurrentUser()` below) instead of `getHomeForCurrentUser()`
+ * directly, so entitlement is the authoritative gate everywhere, not just
+ * at onboarding. Layered exactly as `resolveTravelPlannerAccess` already
+ * establishes: authentication (`requireUser()`, inside `hasProductAccess`)
+ * is separate from product entitlement (`hasProductAccess` itself) is
+ * separate from product implementation (`getHomeForCurrentUser()`, this
+ * product's own workspace data) - never collapsed into one boolean.
+ */
+export async function resolveHomePlannerAccess(): Promise<HomePlannerAccessResult> {
+  const user = await requireUser();
+
+  const entitled = await hasProductAccess(user.id, HOME_PLANNER_PRODUCT.plannerId);
+  if (!entitled) {
+    return { status: "needs-purchase" };
+  }
+
+  const home = await getHomeForCurrentUser();
+  if (!home) {
+    return { status: "needs-onboarding" };
+  }
+
+  return { status: "granted", home };
+}
+
+/**
+ * The one-line version of `resolveHomePlannerAccess()` every page actually
+ * calls: redirects to checkout/onboarding as needed and returns the real
+ * `Home` only once access is fully granted.
+ */
+export async function requireHomeForCurrentUser(): Promise<Home> {
+  const access = await resolveHomePlannerAccess();
+
+  if (access.status === "needs-purchase") {
+    redirect("/app/home-planner/checkout");
+  }
+  if (access.status === "needs-onboarding") {
+    redirect("/app/home-planner/onboarding");
+  }
+
+  return access.home;
 }
 
 const HOME_TYPES = ["house", "apartment", "condo", "townhouse", "mobile-home", "other"] as const satisfies readonly HomeType[];

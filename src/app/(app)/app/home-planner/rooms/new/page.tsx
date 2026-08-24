@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { CreateRoomForm } from "./_components/create-room-form";
 
@@ -16,11 +15,7 @@ export const metadata: Metadata = {
  * workspace yet redirects to setup.
  */
 export default async function NewRoomPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   return (
     <Container size="narrow" className="flex flex-1 flex-col justify-center gap-8 py-10 md:py-14">

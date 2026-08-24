@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
 import { CreateProjectForm } from "./_components/create-project-form";
@@ -14,11 +13,7 @@ export const metadata: Metadata = {
 
 /** Create a project. Gated the same way every Home Planner route is: no workspace yet redirects to setup. */
 export default async function NewProjectPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const rooms = await getRoomsForHome(home.id);
   const roomOptions = rooms.map((room) => ({ value: room.id, label: room.name }));

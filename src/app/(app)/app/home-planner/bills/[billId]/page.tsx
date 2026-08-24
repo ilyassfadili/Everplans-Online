@@ -1,6 +1,6 @@
 import { Check, Pause, Pencil, Play, Receipt, Repeat, RotateCcw, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Badge, Button, Card, Container, Eyebrow, Heading, Icon, Text } from "@/components/ui";
 import { getBillCategoryLabel } from "@/components/home-planner/bill-category-options";
@@ -8,7 +8,7 @@ import { BillStatusBadge } from "@/components/home-planner/bill-status-badge";
 import { getBillById } from "@/lib/home-planner/bills";
 import { calculateBillStatus } from "@/lib/home-planner/bill-status";
 import { formatMoney } from "@/lib/home-planner/format-currency";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRecurrenceFrequencyLabel, previewUpcomingOccurrences } from "@/lib/home-planner/recurrence";
 
 import { deleteBillAction, markPaidAction, markUnpaidAction, setBillRecurrenceActiveAction } from "../actions";
@@ -25,11 +25,7 @@ export const metadata: Metadata = {
 /** Bill details - the same shape `TaskDetailPage` (Maintenance) establishes. */
 export default async function BillDetailPage({ params }: BillDetailPageProps) {
   const { billId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const bill = await getBillById(home.id, billId);
 

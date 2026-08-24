@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import { getHouseholdMembersForHome } from "@/lib/home-planner/household-members";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { AddMemberForm } from "./_components/add-member-form";
 import { MemberList } from "./_components/member-list";
@@ -20,11 +19,7 @@ export const metadata: Metadata = {
  * setup.
  */
 export default async function HouseholdPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const members = await getHouseholdMembersForHome(home.id);
 

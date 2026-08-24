@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import { getBillsForHome } from "@/lib/home-planner/bills";
 import { calculateBillStatus } from "@/lib/home-planner/bill-status";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { AddBillForm } from "./_components/add-bill-form";
 import { BillList, type BillWithStatus } from "./_components/bill-list";
@@ -21,11 +20,7 @@ export const metadata: Metadata = {
  * way every Home Planner route is: no workspace yet redirects to setup.
  */
 export default async function BillsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const bills = await getBillsForHome(home.id);
 

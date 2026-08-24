@@ -1,4 +1,4 @@
-import { Compass, Heart, PiggyBank, Plane, Store as StoreIcon } from "lucide-react";
+import { Compass, Heart, Home, PiggyBank, Plane, Store as StoreIcon } from "lucide-react";
 import type { Metadata } from "next";
 
 import { Container, EmptyState } from "@/components/ui";
@@ -6,6 +6,7 @@ import { getProductLandingConfig } from "@/config/products";
 import { getBudgetPlanForCurrentUser } from "@/lib/budget/plans";
 import { requireUser } from "@/lib/auth/dal";
 import { getActiveEntitlement } from "@/lib/entitlements";
+import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getLifePlanForCurrentUser } from "@/lib/life-planner/life-plans";
 import { getPlannerCategories, getPublishedPlannerDefinitions } from "@/lib/planners";
 import { getTripForCurrentUser } from "@/lib/travel/trips";
@@ -31,11 +32,13 @@ export const metadata: Metadata = {
  *    that file's own comment). Untouched by this page beyond mapping its
  *    output into a `StoreListing`.
  * 2. Real, hand-built products that live entirely outside that generic
- *    runtime - today, three: the Wedding Planner, the Budget Planner, and
- *    the Travel Planner (`@/lib/wedding/weddings`, `@/lib/budget/plans`,
- *    `@/lib/travel/trips`, each with its own tables and routes under
- *    `/app/wedding-planner` / `/app/budget-planner` / `/app/travel-planner`).
- *    Neither is, or should become, a row in
+ *    runtime - today, five: the Wedding Planner, the Budget Planner, the
+ *    Travel Planner, the Life Planner, and the Home Planner
+ *    (`@/lib/wedding/weddings`, `@/lib/budget/plans`, `@/lib/travel/trips`,
+ *    `@/lib/life-planner/life-plans`, `@/lib/home-planner/homes`, each with
+ *    its own tables and routes under `/app/wedding-planner` /
+ *    `/app/budget-planner` / `/app/travel-planner` / `/app/life-planner` /
+ *    `/app/home-planner`). None of them is, or should become, a row in
  *    `planner_definitions` - it was never built on that generic
  *    schema-driven `PlannerRuntime` at all, so pretending otherwise would
  *    route its CTA into a runtime with no real content for it
@@ -69,13 +72,14 @@ export const metadata: Metadata = {
 export default async function StorePage() {
   const user = await requireUser();
 
-  const [definitions, categories, wedding, budgetPlan, trip, lifePlan] = await Promise.all([
+  const [definitions, categories, wedding, budgetPlan, trip, lifePlan, home] = await Promise.all([
     getPublishedPlannerDefinitions(),
     getPlannerCategories(),
     getWeddingForCurrentUser(),
     getBudgetPlanForCurrentUser(),
     getTripForCurrentUser(),
     getLifePlanForCurrentUser(),
+    getHomeForCurrentUser(),
   ]);
   const categoryById = new Map(categories.map((category) => [category.id, category]));
 
@@ -185,7 +189,34 @@ export default async function StorePage() {
     imageUrl: lifePlannerConfig.coverImageSrc,
   };
 
-  const listings = [weddingPlannerListing, budgetPlannerListing, travelPlannerListing, lifePlannerListing, ...catalogListings];
+  // Non-null: "home-planner" is a real key in the Product Landing Page
+  // registry (`@/config/products`) - same source `/products/home-planner`
+  // itself renders from.
+  const homePlannerConfig = getProductLandingConfig("home-planner")!;
+  const homePlannerListing: StoreListing = {
+    id: homePlannerConfig.slug,
+    title: homePlannerConfig.name,
+    description: homePlannerConfig.seo.description,
+    categoryLabel: homePlannerConfig.category,
+    icon: Home,
+    href: homePlannerConfig.ctaHref,
+    availableHref: `/products/${homePlannerConfig.slug}`,
+    accessState: home ? "already-owned" : "available",
+    availableCtaLabel: homePlannerConfig.hero.primaryCtaLabel,
+    ownedCtaLabel: "Open Planner",
+    isFree: homePlannerConfig.pricing.model === "free",
+    priceCents: homePlannerConfig.pricing.priceCents,
+    imageUrl: homePlannerConfig.coverImageSrc,
+  };
+
+  const listings = [
+    weddingPlannerListing,
+    budgetPlannerListing,
+    travelPlannerListing,
+    lifePlannerListing,
+    homePlannerListing,
+    ...catalogListings,
+  ];
 
   return (
     <Container className="flex flex-1 flex-col gap-8 py-10 md:py-14">

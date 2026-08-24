@@ -103,6 +103,30 @@ export const dashboardPageTitles: Record<string, string> = {
   "/app/life-planner/information/new": "New Item",
   "/app/life-planner/information": "Important Plans & Information",
   "/app/life-planner": "Life Planner",
+  // More specific Home Planner routes before its base entry - same
+  // ordering rule as every other product above. Every detail route
+  // (`rooms/[roomId]`, `bills/[billId]`, `maintenance/[taskId]`,
+  // `projects/[projectId]`, each plus `/edit`) has no entry of its own -
+  // same rule as Wedding's `vendors/[vendorId]`, it falls through to its
+  // list route's prefix match and inherits that title, which is honest:
+  // the detail/edit page is still part of that section, not a distinct one.
+  "/app/home-planner/onboarding": "Set Up Your Home",
+  "/app/home-planner/edit": "Edit Home Details",
+  "/app/home-planner/rooms/new": "New Room",
+  "/app/home-planner/rooms": "Rooms",
+  "/app/home-planner/inventory": "Inventory",
+  "/app/home-planner/important-items": "Important Items",
+  "/app/home-planner/maintenance": "Maintenance",
+  "/app/home-planner/bills": "Bills",
+  "/app/home-planner/documents": "Documents",
+  "/app/home-planner/projects/new": "New Project",
+  "/app/home-planner/projects": "Projects",
+  "/app/home-planner/household": "Household",
+  "/app/home-planner/contacts": "Contacts",
+  "/app/home-planner/checkout/success": "Purchase Complete",
+  "/app/home-planner/checkout/cancel": "Checkout Cancelled",
+  "/app/home-planner/checkout": "Checkout",
+  "/app/home-planner": "Home Planner",
   "/app/purchases": "Purchases",
   "/app/planners": "My Planners",
   "/app/analytics": "Quick Stats",

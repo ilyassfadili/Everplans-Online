@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { EditHomeForm } from "./_components/edit-home-form";
 
@@ -15,16 +14,13 @@ export const metadata: Metadata = {
  * Edit home details (Phase 2: "test editing the profile"). Unlike Wedding
  * Planner's narrow single-field edits, Home Planner ships full home
  * profile setup as editable from day one - the same `HomeFormFields` used
- * to create the home, pre-filled with its current values. `getHomeForCurrentUser()`
- * gates the route: a visitor with no home yet is sent to setup instead of
- * an edit screen for something that doesn't exist.
+ * to create the home, pre-filled with its current values. `requireHomeForCurrentUser()`
+ * (Prompt 6) gates the route: a visitor without an active entitlement is
+ * sent to checkout, one entitled but not yet set up is sent to home setup,
+ * so this screen only ever renders for a home that genuinely exists.
  */
 export default async function EditHomePage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   return (
     <Container size="narrow" className="flex flex-1 flex-col justify-center gap-8 py-10 md:py-14">

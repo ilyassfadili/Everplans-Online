@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import { getDocumentsForHome } from "@/lib/home-planner/documents";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getInventoryForHome } from "@/lib/home-planner/inventory";
 import { buildHomeRelatedEntityOptions, resolveHomeRelatedEntity, type ResolvedHomeRelatedEntity } from "@/lib/home-planner/related-entity";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
@@ -22,11 +21,7 @@ export const metadata: Metadata = {
  * setup.
  */
 export default async function DocumentsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [documents, rooms, inventoryItems] = await Promise.all([
     getDocumentsForHome(home.id),

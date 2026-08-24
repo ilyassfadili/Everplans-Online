@@ -1,9 +1,8 @@
 import { DoorOpen, Plus } from "lucide-react";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Button, Container, EmptyState, Eyebrow, Heading, Icon, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
 import { RoomCard } from "./_components/room-card";
@@ -19,11 +18,7 @@ export const metadata: Metadata = {
  * setup.
  */
 export default async function RoomsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const rooms = await getRoomsForHome(home.id);
 

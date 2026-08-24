@@ -2,6 +2,9 @@
 
 import { redirect } from "next/navigation";
 
+import { HOME_PLANNER_PRODUCT } from "@/config/products/home-planner";
+import { requireUser } from "@/lib/auth/dal";
+import { hasProductAccess } from "@/lib/entitlements";
 import { createHome } from "@/lib/home-planner/homes";
 import type { HomeType, OwnershipStatus } from "@/types/home-planner";
 
@@ -23,6 +26,16 @@ export async function createHomeFormAction(
   _prevState: CreateHomeFormState,
   formData: FormData,
 ): Promise<CreateHomeFormState> {
+  // Everplans' real paywall enforcement (Prompt 6), not just the
+  // onboarding page's own redirect (`./page.tsx`'s doc comment) - never
+  // trust that a client reached this action only through the UI path that
+  // already checked entitlement first, the same re-check
+  // `createTripFormAction` (Travel Planner) already establishes.
+  const user = await requireUser();
+  if (!(await hasProductAccess(user.id, HOME_PLANNER_PRODUCT.plannerId))) {
+    return { status: "error", message: "Purchase Home Planner to set up your home." };
+  }
+
   const name = formData.get("name");
   const homeType = formData.get("homeType");
   const ownershipStatus = formData.get("ownershipStatus");

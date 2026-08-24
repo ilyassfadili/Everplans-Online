@@ -3,6 +3,7 @@ import "server-only";
 import { PLANNER_WORKSPACE_ICONS } from "@/app/(app)/_components/planner-workspace-icons";
 import { getProductLandingConfig } from "@/config/products";
 import { getBudgetPlanForCurrentUser } from "@/lib/budget/plans";
+import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getPlannerDefinitionsByIds } from "@/lib/planners";
 import { getUserPlannerInstances } from "@/lib/planner-persistence";
 import { getTripForCurrentUser } from "@/lib/travel/trips";
@@ -21,7 +22,8 @@ import type { StoreListing } from "@/types/store";
  * Composes the same sources `getUserPlannerWorkspaces()`
  * (`@/lib/planner-workspaces`) already established for the sidebar
  * switcher: the Wedding Planner, the Budget Planner, the Travel Planner,
- * and any generic catalog planner the user has actually started.
+ * the Home Planner, and any generic catalog planner the user has actually
+ * started.
  * `/app/planners` used to show *only* the generic catalog, deliberately
  * excluding Wedding/Budget on the theory that they "already have their own
  * sidebar section." In
@@ -31,10 +33,11 @@ import type { StoreListing } from "@/types/store";
  * page actually cares about.
  */
 export async function getOwnedPlanners(): Promise<StoreListing[]> {
-  const [wedding, budgetPlan, trip, instances] = await Promise.all([
+  const [wedding, budgetPlan, trip, home, instances] = await Promise.all([
     getWeddingForCurrentUser(),
     getBudgetPlanForCurrentUser(),
     getTripForCurrentUser(),
+    getHomeForCurrentUser(),
     getUserPlannerInstances(),
   ]);
 
@@ -90,6 +93,24 @@ export async function getOwnedPlanners(): Promise<StoreListing[]> {
       categoryLabel: config?.category ?? "Travel & Adventures",
       icon: PLANNER_WORKSPACE_ICONS.trip,
       href: "/app/travel-planner",
+      accessState: "already-owned",
+      availableCtaLabel: config?.hero.primaryCtaLabel ?? "Open Planner",
+      ownedCtaLabel: "Open Planner",
+      isFree: config?.pricing.model === "free",
+      priceCents: config?.pricing.priceCents ?? null,
+      imageUrl: config?.coverImageSrc,
+    });
+  }
+
+  if (home) {
+    const config = getProductLandingConfig("home-planner");
+    owned.push({
+      id: "home-planner",
+      title: "Home Planner",
+      description: config?.seo.description ?? "Your rooms, inventory, maintenance, bills, documents, and projects, all in one place.",
+      categoryLabel: config?.category ?? "Home & Moving",
+      icon: PLANNER_WORKSPACE_ICONS.home,
+      href: "/app/home-planner",
       accessState: "already-owned",
       availableCtaLabel: config?.hero.primaryCtaLabel ?? "Open Planner",
       ownedCtaLabel: "Open Planner",

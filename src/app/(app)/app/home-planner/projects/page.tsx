@@ -1,12 +1,11 @@
 import { Hammer, Plus } from "lucide-react";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Button, Container, EmptyState, Eyebrow, Heading, Icon, Text } from "@/components/ui";
 import { calculateProjectProgress } from "@/lib/home-planner/project-progress";
 import { getTasksForProject } from "@/lib/home-planner/project-tasks";
 import { getProjectsForHome } from "@/lib/home-planner/projects";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { ProjectCard } from "./_components/project-card";
 
@@ -22,11 +21,7 @@ export const metadata: Metadata = {
  * yet redirects to setup.
  */
 export default async function ProjectsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const projects = await getProjectsForHome(home.id);
   const projectsWithProgress = await Promise.all(

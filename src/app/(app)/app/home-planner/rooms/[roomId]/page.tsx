@@ -1,10 +1,10 @@
 import { Pencil } from "lucide-react";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Badge, Button, Card, Container, Eyebrow, Heading, Icon, Text } from "@/components/ui";
 import { getRoomTypeLabel, ROOM_TYPE_ICONS } from "@/components/home-planner/room-type-options";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomById } from "@/lib/home-planner/rooms";
 
 import { DeleteRoomButton } from "./_components/delete-room-button";
@@ -25,11 +25,7 @@ export const metadata: Metadata = {
  */
 export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
   const { roomId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const room = await getRoomById(home.id, roomId);
 

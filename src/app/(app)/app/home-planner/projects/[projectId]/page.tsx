@@ -1,12 +1,12 @@
 import { Hammer, Pencil, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Badge, Button, Card, Container, Eyebrow, Heading, Icon, ProgressRing, Text } from "@/components/ui";
 import { getProjectCategoryLabel } from "@/components/home-planner/project-category-options";
 import { getProjectStatusLabel, getProjectStatusVariant } from "@/components/home-planner/project-status-options";
 import { formatMoney } from "@/lib/home-planner/format-currency";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { calculateProjectProgress } from "@/lib/home-planner/project-progress";
 import { getTasksForProject } from "@/lib/home-planner/project-tasks";
 import { getProjectById } from "@/lib/home-planner/projects";
@@ -27,11 +27,7 @@ export const metadata: Metadata = {
 /** Project details - progress, budget, room/dates, and the task checklist that drives progress. */
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { projectId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const project = await getProjectById(home.id, projectId);
 

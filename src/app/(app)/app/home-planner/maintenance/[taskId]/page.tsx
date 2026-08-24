@@ -1,12 +1,12 @@
 import { Check, Pause, Pencil, Play, Repeat, RotateCcw, Trash2, Wrench } from "lucide-react";
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Badge, Button, Card, Container, Eyebrow, Heading, Icon, Text } from "@/components/ui";
 import { getMaintenanceCategoryLabel } from "@/components/home-planner/maintenance-category-options";
 import { getMaintenancePriorityLabel } from "@/components/home-planner/maintenance-priority-options";
 import { MaintenanceStatusBadge } from "@/components/home-planner/maintenance-status-badge";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getMaintenanceTaskById } from "@/lib/home-planner/maintenance";
 import { calculateMaintenanceStatus } from "@/lib/home-planner/maintenance-status";
 import { getRecurrenceFrequencyLabel, previewUpcomingOccurrences } from "@/lib/home-planner/recurrence";
@@ -26,11 +26,7 @@ export const metadata: Metadata = {
 /** Task details (Phase 1: "provide task information, task metadata, and relevant task actions"). */
 export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
   const { taskId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const task = await getMaintenanceTaskById(home.id, taskId);
 

@@ -1,10 +1,9 @@
 import { Star } from "lucide-react";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Card, Container, EmptyState, Eyebrow, Heading, Link, Text } from "@/components/ui";
 import { getImportantItemsForHome } from "@/lib/home-planner/inventory";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
 import { ItemRow } from "../inventory/_components/item-row";
@@ -23,11 +22,7 @@ export const metadata: Metadata = {
  * instruction).
  */
 export default async function ImportantItemsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [items, rooms] = await Promise.all([getImportantItemsForHome(home.id), getRoomsForHome(home.id)]);
   const roomOptions = rooms.map((room) => ({ value: room.id, label: room.name }));

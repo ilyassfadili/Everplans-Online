@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { Container, Eyebrow, Heading, Text } from "@/components/ui";
 import { getContactsForHome } from "@/lib/home-planner/contacts";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 
 import { AddContactForm } from "./_components/add-contact-form";
 import { ContactList } from "./_components/contact-list";
@@ -19,11 +18,7 @@ export const metadata: Metadata = {
  * every Home Planner route is: no workspace yet redirects to setup.
  */
 export default async function ContactsPage() {
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const contacts = await getContactsForHome(home.id);
 

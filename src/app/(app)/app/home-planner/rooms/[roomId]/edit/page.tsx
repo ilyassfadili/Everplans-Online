@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getRoomById } from "@/lib/home-planner/rooms";
 
 import { EditRoomForm } from "./_components/edit-room-form";
@@ -19,11 +19,7 @@ export const metadata: Metadata = {
 /** Edit room details - the same `RoomFormFields` used to create the room, pre-filled with its current values. */
 export default async function EditRoomPage({ params }: EditRoomPageProps) {
   const { roomId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const room = await getRoomById(home.id, roomId);
 

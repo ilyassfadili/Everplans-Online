@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Card, Container, Eyebrow, Heading, Text } from "@/components/ui";
-import { getHomeForCurrentUser } from "@/lib/home-planner/homes";
+import { requireHomeForCurrentUser } from "@/lib/home-planner/homes";
 import { getProjectById } from "@/lib/home-planner/projects";
 import { getRoomsForHome } from "@/lib/home-planner/rooms";
 
@@ -20,11 +20,7 @@ export const metadata: Metadata = {
 /** Edit project details - the same `ProjectFormFields` used to create the project, pre-filled with its current values. */
 export default async function EditProjectPage({ params }: EditProjectPageProps) {
   const { projectId } = await params;
-  const home = await getHomeForCurrentUser();
-
-  if (!home) {
-    redirect("/app/home-planner/onboarding");
-  }
+  const home = await requireHomeForCurrentUser();
 
   const [project, rooms] = await Promise.all([getProjectById(home.id, projectId), getRoomsForHome(home.id)]);
 
