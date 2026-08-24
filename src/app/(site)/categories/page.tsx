@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import type { Category } from "@/types/planner";
+import { getCategories } from "@/lib/planner-catalog";
 
 import { CategoryCollection } from "./_components/collection";
 import { CategoriesToPlannersConnection } from "./_components/connection";
@@ -15,10 +15,13 @@ export const metadata: Metadata = {
     "Browse how Everplans organizes interactive planners by category - the part of life or project each one is built for.",
 };
 
-// Always empty today - no category data source exists yet.
-const categories: Category[] = [];
+export default async function CategoriesPage() {
+  // The real category list, each with a real published-planner count - the
+  // same source `/planners` reads through (`getPublishedPlanners()`'s own
+  // comment), so this page and that one can never disagree about what's
+  // actually available.
+  const categories = await getCategories();
 
-export default function CategoriesPage() {
   return (
     <>
       <CategoriesHero />

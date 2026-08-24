@@ -9,11 +9,17 @@ import { PasswordInput } from "@/components/ui/form/password-input";
 
 import { signIn, signInInitialState } from "../actions";
 
-export function SignInForm() {
+interface SignInFormProps {
+  /** Where to return after a successful sign-in, round-tripped from the page's own `?next=` (see sign-in/page.tsx and proxy.ts). Omitted entirely when absent, rather than rendered as an empty field. */
+  next?: string;
+}
+
+export function SignInForm({ next }: SignInFormProps) {
   const [state, formAction, isPending] = useActionState(signIn, signInInitialState);
 
   return (
     <form action={formAction} noValidate>
+      {next && <input type="hidden" name="next" value={next} />}
       <Stack gap="5">
         {state.status === "error" && !state.fieldErrors && (
           <Alert variant="error" title="Couldn't sign you in">

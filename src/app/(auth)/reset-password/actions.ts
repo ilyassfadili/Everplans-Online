@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 
+import { APP_HOME_PATH } from "@/config/app";
 import { getAuthErrorMessage } from "@/lib/auth-errors";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -42,5 +43,5 @@ export async function updatePassword(
 
   // Already signed in via the recovery session - no reason to make someone
   // who just proved their identity through email sign in a second time.
-  redirect("/");
+  redirect(APP_HOME_PATH);
 }

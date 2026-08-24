@@ -11,10 +11,11 @@ interface PlannerCollectionProps {
 }
 
 /**
- * Renders the empty state today; the grid branch exists so a real planner
- * list can be handed to this same component later without restructuring
- * the page - it's currently unreachable because `planners` is always `[]`,
- * not because the code is untested speculation.
+ * Renders the populated grid now that `getPublishedPlanners()`
+ * (`@/lib/planner-catalog`) returns real data - the empty branch stays for
+ * the moment there are genuinely zero published planners again (there
+ * isn't one today: the Wedding Planner is always in the list), not as
+ * dead code.
  *
  * The disabled discovery bar rides along as `beforeContent` only while the
  * catalog is empty - once real planners exist, real (enabled) search/filter

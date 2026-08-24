@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 
+import { APP_HOME_PATH, isSafeRedirectTarget } from "@/config/app";
 import { getAuthErrorMessage } from "@/lib/auth-errors";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -19,6 +20,13 @@ export interface SignInState {
 export const signInInitialState: SignInState = { status: "idle" };
 
 export async function signIn(_prevState: SignInState, formData: FormData): Promise<SignInState> {
+  // Round-tripped from proxy.ts's optimistic redirect (see that file) via a
+  // hidden field the form includes - `next` is only ever a same-origin
+  // app path proxy generated itself, but it's still untrusted client
+  // input by the time it reaches here, so it's validated below rather
+  // than passed straight to redirect().
+  const next = formData.get("next");
+
   const parsed = signInSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -46,9 +54,9 @@ export async function signIn(_prevState: SignInState, formData: FormData): Promi
     };
   }
 
-  // No dashboard or customer workspace exists yet - Home is the only
-  // honest redirect target. redirect() throws, so it must stay outside
-  // any try/catch (Next.js docs: "redirect should be called outside the
-  // try block").
-  redirect("/");
+  // isSafeRedirectTarget guards against `next` turning a successful
+  // sign-in into an open redirect (see its own comment in config/app.ts).
+  // redirect() throws, so it must stay outside any try/catch (Next.js
+  // docs: "redirect should be called outside the try block").
+  redirect(isSafeRedirectTarget(next) ? next : APP_HOME_PATH);
 }

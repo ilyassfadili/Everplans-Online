@@ -23,7 +23,7 @@ function GrowthPath() {
           <Icon icon={LayoutGrid} size="sm" />
         </div>
         <div className="flex flex-col">
-          <p className="text-body-sm font-semibold text-ink">Platform &amp; categories</p>
+          <p className="text-body-sm font-semibold text-ink">Wedding Planner</p>
           <p className="text-caption text-ink-faint">Live today</p>
         </div>
       </div>

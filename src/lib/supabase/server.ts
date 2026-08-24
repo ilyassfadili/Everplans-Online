@@ -4,6 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 import { publicEnv } from "@/lib/env";
+import type { Database } from "@/types/database";
 
 /**
  * Supabase client for the server: Server Components, Server Actions and Route
@@ -22,11 +23,16 @@ import { publicEnv } from "@/lib/env";
  * A new client is created per request. Never hoist it into a module-level
  * constant: a shared instance would leak one visitor's session into another
  * visitor's render.
+ *
+ * `createServerClient<Database>` types every `.from(...)` call against
+ * the real (hand-written, see `@/types/database`) schema - `.select()`
+ * column lists and returned rows are checked against actual columns
+ * instead of falling back to a loose/untyped shape.
  */
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
 
-  return createServerClient(
+  return createServerClient<Database>(
     publicEnv.supabaseUrl,
     publicEnv.supabasePublishableKey,
     {

@@ -12,10 +12,14 @@ import { z } from "zod";
   password field, with the existing show/hide toggle standing in for the
   typo-catching a second field would have provided.
 
-  fullName goes into Supabase's user_metadata, not a new table - there's no
-  profile page to read it yet, but it's stored under the same `full_name`
-  key Google OAuth sign-ups already populate automatically, so both paths
-  agree on where a display name lives once something reads it.
+  fullName still goes into Supabase's user_metadata here, not directly into
+  a table - stored under the same `full_name` key Google OAuth sign-ups
+  already populate automatically, so both paths agree on where a display
+  name comes from at signup time. `public.profiles.display_name` (PROMPT 4)
+  is seeded from this same value by a database trigger the moment the
+  auth.users row is created, and is what the dashboard actually reads
+  after that (see `getUserProfile` in `@/lib/profile`) - this field is
+  the source for that seed, not a second copy of the value nothing reads.
 */
 export const signUpSchema = z.object({
   fullName: z.string().trim().min(1, "Enter your full name."),

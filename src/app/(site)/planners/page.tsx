@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import type { Planner } from "@/types/planner";
+import { getPublishedPlanners } from "@/lib/planner-catalog";
 
 import { CategoryExploration } from "./_components/category-exploration";
 import { PlannerCollection } from "./_components/collection";
@@ -17,12 +17,14 @@ export const metadata: Metadata = {
     "Discover interactive digital planners on Everplans, organized by category and built around the plans you're actually working on.",
 };
 
-// Always empty today - no planner content source exists yet. Typed as
-// Planner[] so PlannerCollection's populated-grid branch is exercised the
-// moment a real one does, without this page changing.
-const planners: Planner[] = [];
+export default async function PlannersPage() {
+  // Real, published planners - the exact same set the authenticated Store
+  // shows (`getPublishedPlanners()`'s own comment on why the two can't
+  // drift apart). `PlannerCollection`'s populated-grid branch was built
+  // for this moment, not left speculative - see that component's own
+  // comment.
+  const planners = await getPublishedPlanners();
 
-export default function PlannersPage() {
   return (
     <>
       <PlannersHero />

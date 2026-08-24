@@ -1,8 +1,7 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import { getAuthErrorMessage } from "@/lib/auth-errors";
+import { getSiteOrigin } from "@/lib/auth/site-origin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import { forgotPasswordSchema } from "./schema";
@@ -14,21 +13,6 @@ export interface ForgotPasswordState {
 }
 
 export const forgotPasswordInitialState: ForgotPasswordState = { status: "idle" };
-
-/*
-  A Server Action has no request URL to read the way a Route Handler does
-  (`/auth/callback` and `/auth/confirm` just use `new URL(request.url)`) -
-  the `origin` header is what a same-origin form submission actually sends,
-  with a `host`-based fallback for the rare case it's missing.
-*/
-async function getSiteOrigin(): Promise<string> {
-  const headersList = await headers();
-  const origin = headersList.get("origin");
-  if (origin) return origin;
-
-  const host = headersList.get("host") ?? "localhost:3000";
-  return `${host.startsWith("localhost") ? "http" : "https"}://${host}`;
-}
 
 /**
  * Deliberately returns the same "sent" state whether or not the email

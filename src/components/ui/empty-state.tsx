@@ -49,7 +49,13 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-4 rounded-lg border border-dashed border-line bg-surface-muted/40 px-6 py-16 text-center",
+        // `flex-1 justify-center`: inert on its own (no effect without a
+        // flex/flex-col ancestor providing extra space) - inside a
+        // `flex h-full flex-col` panel (the dashboard's own cards) it lets
+        // this fill and vertically center within whatever height a sibling
+        // panel in the same grid row stretched it to, instead of hugging
+        // the top and leaving mismatched blank space below.
+        "flex flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-line bg-surface-muted/40 px-6 py-16 text-center",
         className,
       )}
     >

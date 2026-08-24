@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Approach } from "./_components/home/approach";
+import { AvailableNow } from "./_components/home/available-now";
 import { Categories } from "./_components/home/categories";
 import { Editorial } from "./_components/home/editorial";
 import { FinalCta } from "./_components/home/final-cta";
@@ -32,6 +33,7 @@ export default function HomePage() {
       <Showcase />
       <WhyEverplans />
       <Editorial />
+      <AvailableNow />
       <FutureVision />
       <FinalCta />
     </>

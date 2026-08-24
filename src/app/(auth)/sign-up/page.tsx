@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { AuthCard } from "@/components/auth/auth-card";
 import { Link, Text } from "@/components/ui";
+import { APP_HOME_PATH } from "@/config/app";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import { SignUpForm } from "./_components/sign-up-form";
@@ -19,7 +20,7 @@ export default async function SignUpPage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/");
+    redirect(APP_HOME_PATH);
   }
 
   return (

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { AuthCard } from "@/components/auth/auth-card";
 import { Link, Text } from "@/components/ui";
+import { APP_HOME_PATH } from "@/config/app";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import { ForgotPasswordForm } from "./_components/forgot-password-form";
@@ -19,7 +20,7 @@ export default async function ForgotPasswordPage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/");
+    redirect(APP_HOME_PATH);
   }
 
   return (

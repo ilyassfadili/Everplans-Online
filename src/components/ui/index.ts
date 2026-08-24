@@ -4,7 +4,7 @@
 export { Heading, Text, Eyebrow } from "./typography";
 export { Accordion, AccordionItem } from "./accordion";
 export { Container, Section, Stack } from "./container";
-export { Button, type ButtonProps } from "./button";
+export { Button, buttonVariants, type ButtonProps } from "./button";
 export { Link, type LinkProps } from "./link";
 export { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "./card";
 export { Badge } from "./badge";
@@ -21,4 +21,6 @@ export { Label } from "./form/label";
 export { Input, type InputProps } from "./form/input";
 export { Textarea, type TextareaProps } from "./form/textarea";
 export { Select, type SelectProps } from "./form/select";
+export { Checkbox, type CheckboxProps } from "./form/checkbox";
+export { DatePicker, type DatePickerProps } from "./form/date-picker";
 export { FormField } from "./form/field";

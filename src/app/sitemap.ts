@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { productLandingSlugs } from "@/config/products";
 import { siteConfig } from "@/config/site";
 import { getArticles } from "@/lib/blog";
 
@@ -22,6 +23,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/contact`, changeFrequency: "monthly", priority: 0.4 },
   ];
 
+  const productRoutes: MetadataRoute.Sitemap = productLandingSlugs.map((slug) => ({
+    url: `${siteConfig.url}/products/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${siteConfig.url}/blog/${article.slug}`,
     lastModified: article.publishedAt,
@@ -29,5 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...articleRoutes];
+  return [...staticRoutes, ...productRoutes, ...articleRoutes];
 }

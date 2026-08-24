@@ -21,6 +21,8 @@ interface LogoProps {
    * dark footer band.
    */
   tone?: "default" | "on-dark";
+  /** Where clicking the mark navigates. Defaults to the public homepage - the authenticated app shell (Dashboard V2's sidebar/mobile nav) overrides this to `/app`, so the mark returns to the workspace rather than logging the visitor out of context. */
+  href?: string;
 }
 
 /*
@@ -36,11 +38,11 @@ const toneAsset = {
 } as const;
 
 /** The Everplans wordmark - the commissioned logo image, sized off its own intrinsic ratio. */
-export function Logo({ className, tone = "default" }: LogoProps) {
+export function Logo({ className, tone = "default", href = "/" }: LogoProps) {
   const asset = toneAsset[tone];
   return (
     <Link
-      href="/"
+      href={href}
       className={cn(
         "group inline-flex items-center",
         "rounded-sm transition-opacity duration-150 ease-standard hover:opacity-80",

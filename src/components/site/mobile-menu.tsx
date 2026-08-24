@@ -4,10 +4,16 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/cn";
+import { APP_HOME_PATH } from "@/config/app";
 import { authNav, primaryNav } from "@/config/navigation";
+import { cn } from "@/lib/cn";
 
 import { NavLink } from "./nav-link";
+
+interface MobileMenuProps {
+  /** Passed down from `Header` (a Server Component - this one can't call Supabase itself) so the panel's bottom CTA matches the desktop header instead of always showing Sign In/Sign Up. */
+  isSignedIn: boolean;
+}
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -23,7 +29,7 @@ const FOCUSABLE_SELECTOR =
  * locks page scroll while open. Only rendered below the `lg` breakpoint -
  * see Header.
  */
-export function MobileMenu() {
+export function MobileMenu({ isSignedIn }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -143,12 +149,20 @@ export function MobileMenu() {
           </ul>
 
           <div className="mt-6 flex flex-col gap-3 border-t border-line-subtle pt-6">
-            <Button href={authNav.signIn.href} variant="outline" onClick={close}>
-              {authNav.signIn.label}
-            </Button>
-            <Button href={authNav.signUp.href} variant="primary" onClick={close}>
-              {authNav.signUp.label}
-            </Button>
+            {isSignedIn ? (
+              <Button href={APP_HOME_PATH} variant="primary" onClick={close}>
+                Go to Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button href={authNav.signIn.href} variant="outline" onClick={close}>
+                  {authNav.signIn.label}
+                </Button>
+                <Button href={authNav.signUp.href} variant="primary" onClick={close}>
+                  {authNav.signUp.label}
+                </Button>
+              </>
+            )}
           </div>
         </nav>
       </div>

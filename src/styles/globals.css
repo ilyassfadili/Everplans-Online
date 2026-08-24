@@ -492,4 +492,22 @@
   .animate-icon-pop {
     animation: icon-pop 150ms var(--ease-standard) both;
   }
+
+  /*
+    Hides the scrollbar track/thumb on an internally-scrolling region
+    while leaving actual scrolling (wheel, trackpad, keyboard, touch)
+    fully intact - the Dashboard nav rail's own scroll area (live
+    feedback: Windows' classic, always-reserved scrollbar read as heavy
+    chrome next to a four-item nav that rarely even needs to scroll).
+    Both the standard property and the WebKit pseudo-element are needed;
+    neither alone covers every engine.
+  */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

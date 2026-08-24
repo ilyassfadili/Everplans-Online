@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { APP_HOME_PATH } from "@/config/app";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
@@ -21,9 +22,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      // No dashboard or customer workspace exists yet - Home is the only
-      // honest destination, same as the email/password Server Actions.
-      return NextResponse.redirect(`${origin}/`);
+      return NextResponse.redirect(`${origin}${APP_HOME_PATH}`);
     }
   }
 

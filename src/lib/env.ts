@@ -32,6 +32,22 @@ export const publicEnv = {
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   ),
+  /**
+   * PayPal's client id (Everplans Money Prompt 8's checkout SDK) - not a
+   * secret. PayPal client ids are designed to ship to browsers, the same
+   * way Supabase's publishable key is: it identifies which PayPal app the
+   * client-side SDK talks to, but every payment it initiates still must
+   * clear this app's own server-side verification
+   * (`@/lib/commerce/verify-and-finalize-order.ts`) before anything is
+   * trusted. The exact same value also lives server-side as
+   * `PAYPAL_CLIENT_ID` (`@/lib/paypal/client.ts`, paired there with the
+   * real secret) - two env vars because Next.js only inlines a literal
+   * `NEXT_PUBLIC_` name into the browser bundle, never a server-only one.
+   */
+  paypalClientId: required(
+    "NEXT_PUBLIC_PAYPAL_CLIENT_ID",
+    process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+  ),
 } as const;
 
 export type PublicEnv = typeof publicEnv;

@@ -12,7 +12,12 @@ import { cn } from "@/lib/cn";
   different just because of which element they happen to be.
 */
 
-const buttonVariants = cva(
+// Exported (not just used internally) so a whole-card link that needs to
+// *look* like it contains a button - without nesting a real `<a>`/`<button>`
+// inside the card's own outer `<a>` - can render a plain, non-interactive
+// element styled identically via `buttonVariants({...})`, instead of a
+// second, hand-copied set of button classes that can drift from this one.
+export const buttonVariants = cva(
   [
     "group inline-flex items-center justify-center gap-2 whitespace-nowrap",
     "rounded-md font-medium transition-[background-color,border-color,color,transform] duration-150 ease-standard",

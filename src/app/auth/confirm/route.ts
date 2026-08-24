@@ -1,6 +1,7 @@
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+import { APP_HOME_PATH, isSafeRedirectTarget } from "@/config/app";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
@@ -27,7 +28,11 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/";
+  const requestedNext = searchParams.get("next");
+  // Same open-redirect guard as sign-in's `next` handling (config/app.ts) -
+  // this `next` is also untrusted query input, and Supabase's email
+  // templates control what `next` gets sent here, not this code.
+  const next = isSafeRedirectTarget(requestedNext) ? requestedNext : APP_HOME_PATH;
 
   if (tokenHash && type) {
     const supabase = await createSupabaseServerClient();
