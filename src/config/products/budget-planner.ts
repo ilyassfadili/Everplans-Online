@@ -35,18 +35,20 @@ export const BUDGET_PLANNER_PRODUCT = {
  * `"pending"` placeholder this config carried before checkout existed.
  * `ctaHref` points at `/app/budget-planner/checkout`, which itself resolves
  * "already owns this" (redirects straight into the workspace) vs. "needs to
- * buy this" (starts a real PayPal Sandbox/Live checkout) server-side - the
- * same single link works correctly for both a first-time visitor and an
- * existing customer, since this page itself stays fully public/static with
- * no per-viewer state of its own.
+ * buy this" (shows the checkout page) server-side - the same single link
+ * works correctly for both a first-time visitor and an existing customer,
+ * since this page itself stays fully public/static with no per-viewer state
+ * of its own.
  *
- * No image assets exist for this product yet - `coverImageSrc` and every
- * `image.src` are left unset, rendering the honest "not supplied yet"
- * placeholder every `ProductImagePlaceholder` already supports.
+ * Image assets live under `public/products/budget-planner/` - a hero
+ * dashboard overview, one image per feature story, and a separate card
+ * image for `coverImageSrc` (the small evocative image on the public
+ * catalog/Store cards, distinct from these full-screenshot landing images).
  */
 export const budgetPlannerLanding: ProductLandingConfig = {
   slug: "budget-planner",
   name: "Budget Planner",
+  coverImageSrc: "/products/budget-planner/cover.png",
   category: "Money & Finances",
   categorySlug: "money",
   seo: {
@@ -65,6 +67,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
     image: {
       label: "Budget Planner - dashboard overview",
       aspectRatio: "16/10",
+      src: "/products/budget-planner/hero.png",
     },
   },
   valueProps: [
@@ -102,7 +105,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
       title: "Income, on your terms",
       body: "Add as many income sources as you have - salary, freelance work, anything recurring or one-off - and set the schedule that actually matches how it arrives. Everplans translates it into what to expect for your budget period.",
       bullets: ["Multiple income sources", "Any frequency - weekly to yearly", "Always translated into your budget period"],
-      image: { label: "Income sources", aspectRatio: "4/3" },
+      image: { label: "Income sources", aspectRatio: "4/3", src: "/products/budget-planner/income-sources.png" },
       imagePosition: "right",
     },
     {
@@ -110,7 +113,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
       title: "Categories that reflect your life",
       body: "Create the categories that make sense for you - essentials, lifestyle, savings, or anything custom - and set what you plan to spend in each one.",
       bullets: ["Fully custom categories", "Planned amounts per category", "No forced budgeting methodology"],
-      image: { label: "Budget categories", aspectRatio: "4/3" },
+      image: { label: "Budget categories", aspectRatio: "4/3", src: "/products/budget-planner/budget-categories.png" },
       imagePosition: "left",
     },
     {
@@ -118,7 +121,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
       title: "Planned vs. actual, at a glance",
       body: "Log what you actually spend and see it land against what you planned - a calm read on where things stand, not a wall of numbers.",
       bullets: ["Quick expense entry", "Planned vs. actual by category", "Clear, non-alarming status"],
-      image: { label: "Planned vs. actual spending", aspectRatio: "4/3" },
+      image: { label: "Planned vs. actual spending", aspectRatio: "4/3", src: "/products/budget-planner/planned-vs-actual.png" },
       imagePosition: "right",
     },
     {
@@ -126,7 +129,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
       title: "Goals that stay part of the plan",
       body: "Set a target, a date, and track progress right alongside the rest of your budget - so saving for something feels like part of the plan, not a separate list.",
       bullets: ["Target amount and date", "Progress tracked over time", "Connected to the rest of your budget"],
-      image: { label: "Financial goals", aspectRatio: "4/3" },
+      image: { label: "Financial goals", aspectRatio: "4/3", src: "/products/budget-planner/financial-goals.png" },
       imagePosition: "left",
     },
   ],
@@ -173,7 +176,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
     model: "one-time",
     priceCents: BUDGET_PLANNER_PRODUCT.priceCents,
     priceLabel: "$29 one-time",
-    billingNote: "Pay once with PayPal. Permanent access to your Budget Planner workspace - no subscription.",
+    billingNote: "Pay once. Permanent access to your Budget Planner workspace - no subscription.",
     ctaLabel: "Start Budgeting",
     included: [
       "Income, expenses, transactions, categories, and accounts",
@@ -201,7 +204,7 @@ export const budgetPlannerLanding: ProductLandingConfig = {
     },
     {
       question: "How much does it cost?",
-      answer: "$29, one time, via PayPal. No subscription - you keep permanent access to your workspace after purchase.",
+      answer: "$29, one time. No subscription - you keep permanent access to your workspace after purchase.",
     },
     {
       question: "Is my information private?",
